@@ -25,6 +25,11 @@
     insert into member(name,id,email,pwd,nick,tel,bday,sex) 
     values(#{name},#{id},#{email},sha2(#{password},256),#{nickname},#{tel},#{birthday},#{sex})
   </insert>
+  
+  <insert id="insert" parameterType="member">
+    insert into member(name,id,email,pwd,nick,tel,bday,sex) 
+    values(#{name},#{id},#{email},sha2(#{password},256),#{nickname},#{tel},#{birthday},#{sex})
+  </insert>
 
   <select id="findByNo" resultMap="memberMap">
     select 
