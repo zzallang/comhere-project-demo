@@ -73,8 +73,8 @@
                   <div class="mail_sectin">
                     <form action="/app/auth/addjoin" method="post" id="joinForm">
                         <div class="join_menu">아이디</div> 
-                      <input type="text" class="email-bt" id= "join_menu_check" placeholder="아이디" name="id">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">중복확인</button>
+                      <input type="text" class="email-bt" id= "join_menu_check" placeholder="아이디" name="id" check_result="fail" required />
+                        <button type="button" class="id_overlap_button" onclick="id_overlap_check()">중복확인</button>
                         <div class="join_menu">이름</div>
                       <input type="text" class="email-bt" placeholder="이름" name="name">
                         <div class="join_menu">생년월일</div>
@@ -106,9 +106,12 @@
                           <div class="join_menu">닉네임</div>
                       <input type="text" class="email-bt" id= "join_menu_check" placeholder="닉네임" name="nickname">
                           <button class="btn btn-outline-secondary" type="button" id="button-addon2">중복확인</button>
-                          <div class="join_menu">비밀번호</div>
-                      <input type="password" class="email-bt" placeholder="비밀번호" name="password"> 
-                      <input type="password" class="email-bt" placeholder="비밀번호 확인" name="password"> 
+                          <div class="join_menu">비밀번호
+			                      <input type="password" class="email-bt" id="password" placeholder="비밀번호" name="password"> 
+			                      <div id="passwordError" class="error"></div>
+			                      <input type="password" class="email-bt" id="passwordCheck" placeholder="비밀번호 확인" name="password"> 
+			                      <div id="passwordCheckError" class="error"></div>
+                          </div>
                         <div class="join_menu">관심지역</div>
                         <select class="email-bt2" id="region" name="region_domain">
                           <option value="---선택---">---선택---</option>
@@ -194,7 +197,7 @@
                         <option value="사이클">사이클</option>
                       </select><br />
                       <!-- <div class="send_bt"> <button type="submit">회원가입</button></div> -->
-                      <div class="send_bt"><a href="../auth/form">회원가입</a></div>
+                      <div class="send_bt"><button type="submit">회원가입</button></div>
                     </form>
                   </div>
                 </div>
