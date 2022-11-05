@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,71 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import com.bitcamp.testproject.service.BoardService;
 import com.bitcamp.testproject.service.MemberService;
-import com.bitcamp.testproject.service.RegionService;
-import com.bitcamp.testproject.service.SportsService;
 import com.bitcamp.testproject.vo.AttachedFile;
 import com.bitcamp.testproject.vo.Board;
-import com.bitcamp.testproject.vo.FavoriteRegion;
-import com.bitcamp.testproject.vo.FavoriteSports;
 import com.bitcamp.testproject.vo.Member;
 
 @Controller
 @RequestMapping("/mypage/")
 public class MypageController {
 
+  @Autowired
   ServletContext sc;
+  @Autowired
   BoardService boardService;
+  @Autowired
   MemberService memberService;
-  RegionService regionService;
-  SportsService sportsService;
 
-  public MypageController(BoardService boardService, ServletContext sc) {
-    System.out.println("BoardController() 호출됨!");
-    this.boardService = boardService;
-    this.sc = sc;
-  }
-
-
-  @GetMapping("viewer")
-  public String passwordCheckViewer() {
-
-    return "mypage/pwCheckViewer";
-  }
-
-  @PostMapping("confirmation")
-  public String confirmation(HttpSession httpSession, Member member) {
-    System.out.println(member.getPassword() + " <-----");
-    return "redirect:mypage/viewer";
-  }
-
-
-  @GetMapping("my-Info")
-  public String myPageMember(Member member, int[] region_domain, int[] sports_domain) throws Exception {
-    System.out.println("??????왔니");
-    memberService.update(member);
-    member.setFavoriteRegion(saveRegion(region_domain));
-    member.setFavoriteSports(saveSports(sports_domain));
-
-    return "mypage/myInfo";
-  }
-
-  public List<FavoriteRegion> saveRegion(int[] region_domain) {
-    List<FavoriteRegion> favoriteRegion = new ArrayList<>();
-    for (int no : region_domain) {
-      favoriteRegion.add(new FavoriteRegion(no));
-    }
-
-    return favoriteRegion;
-  }
-
-  public List<FavoriteSports> saveSports(int[] region_domain) {
-    List<FavoriteSports> favoriteSports = new ArrayList<>();
-    for (int no : region_domain) {
-      favoriteSports.add(new FavoriteSports(no));
-    }
-
-    return favoriteSports;
-  }
 
   @GetMapping("my-post")
   public String partyPost(Member member) {

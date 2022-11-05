@@ -47,7 +47,7 @@
   </insert>
   
   <!-- 아이디 중복체크 -->
-  <select id="idCheck" parameterType="String" resultType="Integer">
+<!--   <select id="idCheck" parameterType="String" resultType="Integer">
     select 
       count(*) 
     from 
@@ -56,7 +56,7 @@
       id = #{id}
   </select>
 
-
+ -->
   <select id="findByNo" resultMap="memberMap">
     select 
       mno,
@@ -92,8 +92,10 @@
       id=#{id} and pwd=sha2(#{password},256)
   </select>
   
+  
+  <!-- 회원 정보 수정 -->
   <update id="update" parameterType="member">
-    update member set 
+    update member set
       name=#{name}, 
       id=#{id},
       email=#{email}, 
@@ -104,7 +106,18 @@
       sex=#{sex}
     where 
       mno=#{no}
+  <!-- 관심지역 수정 -->
+    update favorite_region set
+      <foreach collection="favoriteRegion" item="region" separator=",">
+        (#{region.rno},#{no})
+      </foreach>
+  <!-- 관심운동 수정 -->
+      update favorite_sports set
+      <foreach collection="favoriteSports" item="sports" separator=",">
+        (#{sports.sno},#{no})
+      </foreach>
   </update>
+  
   
   <delete id="delete">
     delete from member 
