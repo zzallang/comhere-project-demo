@@ -1,5 +1,7 @@
 package com.bitcamp.testproject.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,8 +11,11 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.bitcamp.testproject.service.MemberService;
+import com.bitcamp.testproject.vo.FavoriteRegion;
+import com.bitcamp.testproject.vo.FavoriteSports;
 import com.bitcamp.testproject.vo.Member;
 
 @Controller 
@@ -81,10 +86,15 @@ public class AuthController {
 
     return "auth/join";
   }
+
   @PostMapping("addjoin")
-  public String add(Member member) throws Exception {
+  public ModelAndView add(Member member, int[] region_domain, int[] sports_domain) throws Exception {
+    member.setFavoriteRegion(saveRegion(region_domain));
+    member.setFavoriteSports(saveSports(sports_domain));
+
     memberService.add(member);
-    return "redirect:form";
+    ModelAndView mv = new ModelAndView("redirect:form");
+    return mv;
   }
 
   @GetMapping("mypage-member")
@@ -93,6 +103,31 @@ public class AuthController {
     return "myPageMember";
   }
 
+  // 아이디 중복 체크 확인
+  @PostMapping("id-check")
+  @ResponseBody
+  public String idCheck(Member member) throws Exception {
+    return memberService.checkId(member);
+  }
+
+
+  public List<FavoriteRegion> saveRegion(int[] region_domain) {
+    List<FavoriteRegion> favoriteRegion = new ArrayList<>();
+    for (int no : region_domain) {
+      favoriteRegion.add(new FavoriteRegion(no));
+    }
+
+    return favoriteRegion;
+  }
+
+  public List<FavoriteSports> saveSports(int[] region_domain) {
+    List<FavoriteSports> favoriteSports = new ArrayList<>();
+    for (int no : region_domain) {
+      favoriteSports.add(new FavoriteSports(no));
+    }
+
+    return favoriteSports;
+  }
 
 }
 

@@ -73,8 +73,8 @@
                   <div class="mail_sectin">
                     <form action="/app/auth/addjoin" method="post" id="joinForm">
                         <div class="join_menu">아이디</div> 
-                      <input type="text" class="email-bt" id= "join_menu_check" placeholder="아이디" name="id" check_result="fail" required />
-                        <button type="button" class="id_overlap_button" onclick="id_overlap_check()">중복확인</button>
+                      <input type="text" class="email-bt" placeholder="아이디" name="id" id="id">
+                        <div><font id="divInputId" size="2"></font></div>
                         <div class="join_menu">이름</div>
                       <input type="text" class="email-bt" placeholder="이름" name="name">
                         <div class="join_menu">생년월일</div>
@@ -90,9 +90,10 @@
                           <div class="join_menu">전화번호</div>
                       <input type="text" class="phoneNumber" placeholder="(-) 제외 입력" name="tel" required pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13"><br/>
                         <div class="join_menu">이메일</div>
-                      <input type="email" id= "join_menu_check" class="email-bt2" placeholder="이메일" name="email" > 
-                          <span class=골뱅이>@</span>
-                        <select class="email-bt2" id="mail_domain" name="mail_domain">
+                      <input type="email" class="email-bt" placeholder="이메일" name="email" > 
+                      <!-- @
+	                      <input type="text" class="custom-email" placeholder="도메인 입력" name="mail_domain" id="mail_domain">
+	                      <select class="custom-email" id="mail_domain_select" onchange="selectChange()">
                           <option value="">직접 입력</option>
                           <option value="naver.com">naver.com</option>
                           <option value="daum.net">daum.net</option>
@@ -101,7 +102,7 @@
                           <option value="korea.com">korea.com</option>
                           <option value="gmail.com">gmail.com</option>
                           <option value="hanmir.com">hanmir.com</option>
-                        </select><br /> 
+                        </select><br />  -->
                       <button class="btn btn-outline-secondary" type="button" id="button-addon2">중복확인</button>
                           <div class="join_menu">닉네임</div>
                       <input type="text" class="email-bt" id= "join_menu_check" placeholder="닉네임" name="nickname">
@@ -109,46 +110,46 @@
                           <div class="join_menu">비밀번호
 			                      <input type="password" class="email-bt" id="password" placeholder="비밀번호" name="password"> 
 			                      <div id="passwordError" class="error"></div>
-			                      <input type="password" class="email-bt" id="passwordCheck" placeholder="비밀번호 확인" name="password"> 
+			                      <input type="password" class="email-bt" id="passwordCheck" placeholder="비밀번호 확인" name="password_check"> 
 			                      <div id="passwordCheckError" class="error"></div>
                           </div>
                         <div class="join_menu">관심지역</div>
                         <select class="email-bt2" id="region" name="region_domain">
-                          <option value="---선택---">---선택---</option>
-                          <option value="종로구">종로구</option>
-                          <option value="중구">중구</option>
-                          <option value="용산구">용산구</option>
-                          <option value="성동구">성동구</option>
-                          <option value="광진구">광진구</option>
-                          <option value="동대문구">동대문구</option>
-                          <option value="중랑구">중랑구</option>
-                          <option value="성북구">성북구</option>
-                          <option value="강북구">강북구</option>
-                          <option value="도봉구">도봉구</option>
-                          <option value="노원구">노원구</option>
-                          <option value="은평구">은평구</option>
-                          <option value="서대문구">서대문구</option>
-                          <option value="마포구">마포구</option>
-                          <option value="양천구">양천구</option>
-                          <option value="강서구">강서구</option>
-                          <option value="구로구">구로구</option>
-                          <option value="금천구">금천구</option>
-                          <option value="영등포구">영등포구</option>
-                          <option value="동작구">동작구</option>
-                          <option value="관악구">관악구</option>
-                          <option value="서초구">서초구</option>
-                          <option value="강남구">강남구</option>
-                          <option value="송파구">송파구</option>
-                          <option value="강동구">강동구</option>
+                          <option value="0">---선택---</option>
+                          <option value="1">종로구</option>
+                          <option value="2">중구</option>
+                          <option value="3">용산구</option>
+                          <option value="4">성동구</option>
+                          <option value="5">광진구</option>
+                          <option value="6">동대문구</option>
+                          <option value="7">중랑구</option>
+                          <option value="8">성북구</option>
+                          <option value="9">강북구</option>
+                          <option value="10">도봉구</option>
+                          <option value="11">노원구</option>
+                          <option value="12">은평구</option>
+                          <option value="13">서대문구</option>
+                          <option value="14">마포구</option>
+                          <option value="15">양천구</option>
+                          <option value="16">강서구</option>
+                          <option value="17">구로구</option>
+                          <option value="18">금천구</option>
+                          <option value="19">영등포구</option>
+                          <option value="20">동작구</option>
+                          <option value="21">관악구</option>
+                          <option value="22">서초구</option>
+                          <option value="23">강남구</option>
+                          <option value="24">송파구</option>
+                          <option value="25">강동구</option>
                       </select> 
                       <select class="email-bt3" id="region" name="region_domain">
-                        <option value="---선택---">---선택---</option>
-                        <option value="종로구">종로구</option>
-                        <option value="중구">중구</option>
-                        <option value="용산구">용산구</option>
-                        <option value="성동구">성동구</option>
-                        <option value="광진구">광진구</option>
-                        <option value="동대문구">동대문구</option>
+                        <option value="0">---선택---</option>
+                        <option value="1">종로구</option>
+                        <option value="2">중구</option>
+                        <option value="3">용산구</option>
+                        <option value="4">성동구</option>
+                        <option value="5">광진구</option>
+                        <option value="6">동대문구</option>
                         <option value="중랑구">중랑구</option>
                         <option value="성북구">성북구</option>
                         <option value="강북구">강북구</option>
@@ -171,12 +172,12 @@
                       </select><br /> 
                         <div class="join_menu">관심운동</div>
                       <select class="email-bt2" id="sports" name="sports_domain">
-                        <option value="---선택---">---선택---</option>
-                        <option value="헬스">헬스</option>
-                        <option value="클라이밍">클라이밍</option>
-                        <option value="배드민턴">배드민턴</option>
-                        <option value="축구">축구</option>
-                        <option value="농구">농구</option>
+                        <option value="0">---선택---</option>
+                        <option value="1">헬스</option>
+                        <option value="2">클라이밍</option>
+                        <option value="3">배드민턴</option>
+                        <option value="4">축구</option>
+                        <option value="5">농구</option>
                         <option value="골프">골프</option>
                         <option value="탁구">탁구</option>
                         <option value="야구">야구</option>
@@ -184,12 +185,12 @@
                         <option value="사이클">사이클</option>
                       </select> 
                       <select class="email-bt3" id="sports" name="sports_domain">
-                        <option value="---선택---">---선택---</option>
-                        <option value="헬스">헬스</option>
-                        <option value="클라이밍">클라이밍</option>
-                        <option value="배드민턴">배드민턴</option>
-                        <option value="축구">축구</option>
-                        <option value="농구">농구</option>
+                        <option value="0">---선택---</option>
+                        <option value="1">헬스</option>
+                        <option value="2">클라이밍</option>
+                        <option value="3">배드민턴</option>
+                        <option value="4">축구</option>
+                        <option value="5">농구</option>
                         <option value="골프">골프</option>
                         <option value="탁구">탁구</option>
                         <option value="야구">야구</option>
@@ -197,7 +198,7 @@
                         <option value="사이클">사이클</option>
                       </select><br />
                       <!-- <div class="send_bt"> <button type="submit">회원가입</button></div> -->
-                      <div class="send_bt"><button type="submit">회원가입</button></div>
+                      <div class="send_bt"><button type="submit" >회원가입</button></div>
                     </form>
                   </div>
                 </div>
@@ -233,6 +234,7 @@
             <script src="js/owl.carousel.js"></script>
             <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
             <script>
              $(document).on("keyup", ".phoneNumber", function () {
               $(this).val(
@@ -246,7 +248,62 @@
                   .replace("—", "-")
               );
             });
-            
+             
+/*              // 이메일 분리 처리
+             function selectChange(){
+               var mailSelect = document.getElementById("mail_domain_select");
+               var mailDomain = document.getElementById("mail_domain");
+               var selectVal = mailSelect.value;
+               if(selectVal == ""){
+                 mailDomain.readOnly=false;
+                 mailDomain.placeholder="도메인 입력";
+                 mailDomain.value="";
+               }else{
+                 mailDomain.readOnly=true;
+                 mailDomain.value=selectVal;
+               }
+             } */
+             
+						//아이디 체크여부 확인 (아이디 중복일 경우 = 0 , 중복이 아닐경우 = 1 )
+						var idck = 0;
+						$(function() {
+						    //idck 버튼을 클릭했을 때 
+						    $("#idCheck").click(function() {
+						        
+						        //userid 를 param.
+						        var userid =  $("#id").val(); 
+						        
+						        $.ajax({
+						            async: true,
+						            type : 'POST',
+						            data : userid,
+						            url : "checkId.do",
+						            dataType : "json",
+						            contentType: "application/json; charset=UTF-8",
+						            success : function(data) {
+				                if (data.cnt > 0) {
+				                    alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+				                    //아이디가 존재하는 경우 Red
+				                    $("#divInputId").addClass("has-error")
+				                    $("#divInputId").removeClass("has-success")
+				                    $("#id").focus();
+				                } else {
+				                    alert("사용가능한 아이디입니다.");
+				                    //아이디가 존재하지 않을 경우 Blue
+				                    $("#divInputId").addClass("has-success")
+				                    $("#divInputId").removeClass("has-error")
+				                    $("#pwd").focus();
+				                    //아이디가 중복하지 않으면  idck = 1 
+				                    idck = 1;
+				                }
+				            },
+				            error : function(error) {
+				            	alert("error : " + error);
+				            }
+					        });
+					    });
+					});
+
             </script>
         </body>
 

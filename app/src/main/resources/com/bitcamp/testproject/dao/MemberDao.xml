@@ -21,15 +21,41 @@
     <result column="black" property="black"/>
   </resultMap>
 
-  <insert id="insert" parameterType="member">
+  <!-- 회원 기본 정보 등록  -->
+  <insert id="insert" parameterType="member"
+      useGeneratedKeys="true" keyColumn="mno" keyProperty="no"> 
     insert into member(name,id,email,pwd,nick,tel,bday,sex) 
     values(#{name},#{id},#{email},sha2(#{password},256),#{nickname},#{tel},#{birthday},#{sex})
   </insert>
   
-  <insert id="insert" parameterType="member">
-    insert into member(name,id,email,pwd,nick,tel,bday,sex) 
-    values(#{name},#{id},#{email},sha2(#{password},256),#{nickname},#{tel},#{birthday},#{sex})
+  <!-- 관심지역 등록  -->
+  <insert id="insertRegion" parameterType="member">
+    insert into favorite_region(rno,mno)
+    values
+      <foreach collection="favoriteRegion" item="region" separator=",">
+        (#{region.rno},#{no})
+      </foreach>
   </insert>
+  
+  <!-- 관심 운동 등록  -->
+  <insert id="insertSports" parameterType="member">
+    insert into favorite_sports(sno,mno)
+    values
+      <foreach collection="favoriteSports" item="sports" separator=",">
+        (#{sports.sno},#{no})
+      </foreach>
+  </insert>
+  
+  <!-- 아이디 중복체크 -->
+  <select id="idCheck" parameterType="String" resultType="Integer">
+    select 
+      count(*) 
+    from 
+      member
+    where
+      id = #{id}
+  </select>
+
 
   <select id="findByNo" resultMap="memberMap">
     select 
@@ -66,11 +92,16 @@
       id=#{id} and pwd=sha2(#{password},256)
   </select>
   
-  <update id="update" parameterType="Member">
-    update app_member set 
+  <update id="update" parameterType="member">
+    update member set 
       name=#{name}, 
+      id=#{id},
       email=#{email}, 
-      pwd=sha2(#{password},256) 
+      pwd=sha2(#{password},256)
+      nick=#{nickname},
+      tel=#{tel},
+      bday=#{birthday},
+      sex=#{sex}
     where 
       mno=#{no}
   </update>
@@ -81,6 +112,5 @@
   </delete>
 
 </mapper>
-
 
 
