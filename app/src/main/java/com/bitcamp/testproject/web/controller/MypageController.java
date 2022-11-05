@@ -18,8 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import com.bitcamp.testproject.service.BoardService;
+import com.bitcamp.testproject.service.MemberService;
+import com.bitcamp.testproject.service.RegionService;
+import com.bitcamp.testproject.service.SportsService;
 import com.bitcamp.testproject.vo.AttachedFile;
 import com.bitcamp.testproject.vo.Board;
+import com.bitcamp.testproject.vo.FavoriteRegion;
+import com.bitcamp.testproject.vo.FavoriteSports;
 import com.bitcamp.testproject.vo.Member;
 
 @Controller
@@ -28,6 +33,9 @@ public class MypageController {
 
   ServletContext sc;
   BoardService boardService;
+  MemberService memberService;
+  RegionService regionService;
+  SportsService sportsService;
 
   public MypageController(BoardService boardService, ServletContext sc) {
     System.out.println("BoardController() 호출됨!");
@@ -45,16 +53,37 @@ public class MypageController {
   @PostMapping("confirmation")
   public String confirmation(HttpSession httpSession, Member member) {
     System.out.println(member.getPassword() + " <-----");
-    return "redirect:/viewer";
+    return "redirect:mypage/viewer";
   }
 
 
   @GetMapping("my-Info")
-  public String myPageMember(Member member) {
+  public String myPageMember(Member member, int[] region_domain, int[] sports_domain) throws Exception {
     System.out.println("??????왔니");
+    memberService.update(member);
+    member.setFavoriteRegion(saveRegion(region_domain));
+    member.setFavoriteSports(saveSports(sports_domain));
+
     return "mypage/myInfo";
   }
 
+  public List<FavoriteRegion> saveRegion(int[] region_domain) {
+    List<FavoriteRegion> favoriteRegion = new ArrayList<>();
+    for (int no : region_domain) {
+      favoriteRegion.add(new FavoriteRegion(no));
+    }
+
+    return favoriteRegion;
+  }
+
+  public List<FavoriteSports> saveSports(int[] region_domain) {
+    List<FavoriteSports> favoriteSports = new ArrayList<>();
+    for (int no : region_domain) {
+      favoriteSports.add(new FavoriteSports(no));
+    }
+
+    return favoriteSports;
+  }
 
   @GetMapping("my-post")
   public String partyPost(Member member) {

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.bitcamp.testproject.service.MemberService;
 import com.bitcamp.testproject.vo.FavoriteRegion;
@@ -103,12 +102,12 @@ public class AuthController {
     return "myPageMember";
   }
 
-  // 아이디 중복 체크 확인
-  @PostMapping("id-check")
-  @ResponseBody
-  public String idCheck(Member member) throws Exception {
-    return memberService.checkId(member);
-  }
+  //  // 아이디 중복 체크 확인
+  //  @PostMapping("id-check")
+  //  @ResponseBody
+  //  public String idCheck(Member member) throws Exception {
+  //    return memberService.checkId(member);
+  //  }
 
 
   public List<FavoriteRegion> saveRegion(int[] region_domain) {

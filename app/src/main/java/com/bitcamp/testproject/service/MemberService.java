@@ -19,7 +19,7 @@ public interface MemberService {
 
   List<Member> list() throws Exception;
 
-  String checkId(Member member) throws Exception;
+  //  String checkId(Member member) throws Exception;
 }
 
 

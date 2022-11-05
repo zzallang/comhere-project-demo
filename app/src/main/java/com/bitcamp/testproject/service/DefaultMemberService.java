@@ -58,14 +58,14 @@ public class DefaultMemberService implements MemberService {
     return memberDao.findAll();
   }
 
-  @Override
-  public String checkId(Member member) throws Exception {
-    List<Member> memberList = memberDao.findAll();
-    for(Member eachMember : memberList) {
-      if(eachMember.getId().equals(member.getId())) return "fail";
-    }
-    return "succ";
-  }
+  //  @Override
+  //  public String checkId(Member member) throws Exception {
+  //    List<Member> memberList = memberDao.findAll();
+  //    for(Member eachMember : memberList) {
+  //      if(eachMember.getId().equals(member.getId())) return "fail";
+  //    }
+  //    return "succ";
+  //  }
 
 
 }

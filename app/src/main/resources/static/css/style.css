@@ -882,19 +882,34 @@ textarea#comment::placeholder {
 .send_bt {
     width: 100%;
     float: left;
-    margin-top: 50px;
+    margin-top: 50px;  
+}
+.send_bt2 {
+    border-radius: 5px;
+}
+.send_bt button{
+    width: 30%;
+    float: left;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    border: 2px solid #ffffff;
+    background-color: #f8b81f7a;
+    padding: 10px 0px;
+    font-weight: bold;
 }
 .send_bt a{
     width: 30%;
     float: left;
     font-size: 20px;
-    color: #989696;
+    color: #ffffff;
     text-align: center;
     border: 2px solid #ffffff;
+    background-color: #fff0;
     padding: 10px 0px;
     font-weight: bold;
 }
-.send_bt a:hover{
+.send_bt button:hover{
     color: #989696;
     background-color: #ffffff;
 }
@@ -1054,6 +1069,16 @@ textarea#comment::placeholder {
   width: 500px;
 }
 
+.pwd-checkbox {
+  width: 500px;
+  color: #989696;
+  width: 100%;
+  font-size: 18px;
+  padding: 20px;
+  margin-top: 25px;
+  border: 2px solid gray;
+  border-radius: 5px;
+}
 .email-bt2 {
   color: #989696;
   width: 236px; 

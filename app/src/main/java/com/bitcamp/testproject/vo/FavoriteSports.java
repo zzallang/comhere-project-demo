@@ -5,13 +5,15 @@ public class FavoriteSports {
   private int sno;
   private int mno;
 
+
   public FavoriteSports(int sno) {
     this.sno = sno;
   }
 
+
   @Override
   public String toString() {
-    return "FavoriteSports [rno=" + sno + ", mno=" + mno + "]";
+    return "FavoriteSports [sno=" + sno + ", mno=" + mno + "]";
   }
 
 
@@ -33,5 +35,6 @@ public class FavoriteSports {
   public void setMno(int mno) {
     this.mno = mno;
   }
+
 
 }
