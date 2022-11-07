@@ -17,8 +17,10 @@
     <result column="sex" property="sex"/>
     <result column="filepath" property="filepath"/>
     <result column="cdt" property="createdDate"/>
-    <result column="act" property="active"/>
-    <result column="black" property="black"/>
+      <result column="nick" property="nickname"/>
+      <result column="bday" property="birthday"/>
+      <result column="sex" property="sex"/>
+      <result column="filepath" property="filepath"/>
   </resultMap>
 
   <!-- 회원 기본 정보 등록  -->
@@ -57,12 +59,28 @@
   </select>
 
  -->
+ <select id="findById" resultMap="memberMap">
+    select
+    id
+    from
+    member
+    where
+    name=#{name} and email=#{email}
+  </select>
+ 
+ 
+ 
   <select id="findByNo" resultMap="memberMap">
     select 
       mno,
       name,
+      id,
       email,
-      cdt
+      cdt,
+      nick,
+      bday,
+      sex,
+      filepath
     from 
       member 
     where 
@@ -85,17 +103,21 @@
       mno,
       name,
       id,
-      cdt 
+      email,
+      cdt,
+      nick,
+      bday,
+      sex,
+      filepath
     from 
       member 
     where 
       id=#{id} and pwd=sha2(#{password},256)
   </select>
   
-  
-  <!-- 회원 정보 수정 -->
-  <update id="update" parameterType="member">
-    update member set
+
+  <update id="update" parameterType="Member">
+    update app_member set 
       name=#{name}, 
       id=#{id},
       email=#{email}, 
@@ -118,11 +140,26 @@
       </foreach>
   </update>
   
-  
-  <delete id="delete">
-    delete from member 
-    where mno=#{value}
-  </delete>
+   <select id="findByPassword" resultMap="memberMap">
+    select
+    name
+    from
+    member
+    where
+    id=#{id} and email=#{email}
+  </select>
+
+	<update id="updatePassWrod" parameterType="Member">
+		update member set
+		pwd=sha2(#{password},256)
+		where
+		mno=#{no}
+	</update>
+
+	<delete id="delete">
+		delete from member
+		where mno=#{value}
+	</delete>
 
 </mapper>
 
