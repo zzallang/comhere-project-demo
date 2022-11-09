@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import com.bitcamp.testproject.service.FavoriteRegionService;
 import com.bitcamp.testproject.service.MemberService;
-import com.bitcamp.testproject.service.RegionService;
 import com.bitcamp.testproject.service.SportsService;
 import com.bitcamp.testproject.vo.FavoriteRegion;
 import com.bitcamp.testproject.vo.FavoriteSports;
@@ -27,7 +27,7 @@ public class MemberController {
   @Autowired
   MemberService memberService;
   @Autowired
-  RegionService regionService;
+  FavoriteRegionService favoriteRegionService;
   @Autowired
   SportsService sportsService;
 
@@ -43,9 +43,9 @@ public class MemberController {
   public ModelAndView add(Member member, int[] region_domain, int[] sports_domain) throws Exception {
     member.setFavoriteRegion(saveRegion(region_domain));
     member.setFavoriteSports(saveSports(sports_domain));
-
+    favoriteRegionService.addFavoriteRegion(member);
     memberService.add(member);
-    ModelAndView mv = new ModelAndView("redirect:form");
+    ModelAndView mv = new ModelAndView("redirect:../auth/form");
     return mv;
   }
 
@@ -54,23 +54,33 @@ public class MemberController {
     return "member/pwCheckViewer";
   }
 
-  @PostMapping("myInfo")
-  public String confirmation(HttpSession session, String password) {
-    //    System.out.println(member.getPassword() + " <-----");
+
+  @GetMapping("myInfo")
+  public String confirmation(HttpSession session, Model model) throws Exception {
     Member loginMember = (Member) session.getAttribute("loginMember");
-    System.out.println(loginMember);
+    Member member = memberService.get(loginMember.getNo());
+    model.addAttribute("member", member);
+    System.out.println("member :" + member);
+    System.out.println("loginMember :" + loginMember);
     return "member/myInfo";
   }
 
 
   @PostMapping("memberUpdate")
-  public String myPageMember(Member member, int[] region_domain, int[] sports_domain) throws Exception {
-    System.out.println("??????왔니");
-    memberService.update(member);
+  public ModelAndView myPageMember(HttpSession session, Member member, int[] region_domain, int[] sports_domain) throws Exception {
+    Member loginMember = (Member) session.getAttribute("loginMember");
+    favoriteRegionService.deletePreFavoriteRegion(loginMember.getNo());
+    member.setNo(loginMember.getNo());
     member.setFavoriteRegion(saveRegion(region_domain));
     member.setFavoriteSports(saveSports(sports_domain));
+    favoriteRegionService.addFavoriteRegion(member);
 
-    return "redirect:member/myInfo";
+    //member update logic
+    //...
+    memberService.update(member);
+
+    ModelAndView mv = new ModelAndView("redirect:myInfo");
+    return mv;
   }
 
 
