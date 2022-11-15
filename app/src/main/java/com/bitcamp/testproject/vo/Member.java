@@ -1,6 +1,7 @@
 package com.bitcamp.testproject.vo;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 
 public class Member {
@@ -19,8 +20,9 @@ public class Member {
   private boolean active;
   private boolean black;
   private List<FavoriteRegion> favoriteRegion;
-  private List<FavoriteRegion> preFavoriteRegion;
-  private List<FavoriteSports> favoriteSports;  
+  private List<FavoriteSports> favoriteSports;
+  private int[] regionDomain;
+  private int[] sportsDomain;
 
   // 모임참여 명단에서 주최자 여부
   private boolean auth;
@@ -33,9 +35,9 @@ public class Member {
     return "Member [no=" + no + ", name=" + name + ", id=" + id + ", email=" + email + ", nickname="
         + nickname + ", password=" + password + ", tel=" + tel + ", birthday=" + birthday + ", sex="
         + sex + ", filepath=" + filepath + ", createdDate=" + createdDate + ", active=" + active
-        + ", black=" + black + ", favoriteRegion=" + favoriteRegion + ", preFavoriteRegion="
-        + preFavoriteRegion + ", favoriteSports=" + favoriteSports + ", auth=" + auth
-        + ", ageGroup=" + ageGroup + "]";
+        + ", black=" + black + ", favoriteRegion=" + favoriteRegion + ", favoriteSports="
+        + favoriteSports + ", regionDomain=" + Arrays.toString(regionDomain) + ", sportsDomain="
+        + Arrays.toString(sportsDomain) + ", auth=" + auth + ", ageGroup=" + ageGroup + "]";
   }
 
   public int getNo() {
@@ -150,20 +152,28 @@ public class Member {
     this.favoriteRegion = favoriteRegion;
   }
 
-  public List<FavoriteRegion> getPreFavoriteRegion() {
-    return preFavoriteRegion;
-  }
-
-  public void setPreFavoriteRegion(List<FavoriteRegion> preFavoriteRegion) {
-    this.preFavoriteRegion = preFavoriteRegion;
-  }
-
   public List<FavoriteSports> getFavoriteSports() {
     return favoriteSports;
   }
 
   public void setFavoriteSports(List<FavoriteSports> favoriteSports) {
     this.favoriteSports = favoriteSports;
+  }
+
+  public int[] getRegionDomain() {
+    return regionDomain;
+  }
+
+  public void setRegionDomain(int[] regionDomain) {
+    this.regionDomain = regionDomain;
+  }
+
+  public int[] getSportsDomain() {
+    return sportsDomain;
+  }
+
+  public void setSportsDomain(int[] sportsDomain) {
+    this.sportsDomain = sportsDomain;
   }
 
   public boolean isAuth() {
@@ -181,6 +191,7 @@ public class Member {
   public void setAgeGroup(String ageGroup) {
     this.ageGroup = ageGroup;
   }
+
 
 }
 
