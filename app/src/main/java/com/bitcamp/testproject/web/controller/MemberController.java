@@ -31,13 +31,13 @@ public class MemberController {
   @Autowired
   MemberService memberService;
   @Autowired
-  FavoriteRegionService favoriteRegionService;
-  @Autowired
-  FavoriteSportsService favoriteSportsService;
-  @Autowired
   RegionService regionService;
   @Autowired
   SportsService sportsService;
+  @Autowired
+  FavoriteRegionService favoriteRegionService;
+  @Autowired
+  FavoriteSportsService favoriteSportsService;
 
   // 은지
   @GetMapping("join")
@@ -145,7 +145,6 @@ public class MemberController {
     return favoriteSports;
   }
 }
-
 
 
 
