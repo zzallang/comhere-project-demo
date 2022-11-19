@@ -169,12 +169,30 @@ public class MemberController {
   private String saveAttachedFile(Part file) throws IOException, ServletException {
     String dirPath = sc.getRealPath("/member/files");
     // 첨부파일이 있다면 실행
-    if (file != null) {
+    if (file.getSize() != 0) {
       String filename = UUID.randomUUID().toString();
       file.write(dirPath + "/" + filename);
       System.out.println(filename + "\n파일네임 들어왔냐!>!>!");
       return filename;
     }
     return null;
+  }
+
+  @GetMapping("deleteMember")
+  @ResponseBody
+  public boolean deleteMember(int no, HttpSession session) throws Exception{
+    boolean result = memberService.delete(no);
+    if (result) {
+      session.invalidate();
+    } else {
+      result = false;
+    }
+    return result;
+  }
+
+  @GetMapping("delete_pw_check_viewer")
+  public String deletePwCehckViewer(int no, Model model) {
+    model.addAttribute("no", no);
+    return "member/delete_pw_check_viewer";
   }
 }
