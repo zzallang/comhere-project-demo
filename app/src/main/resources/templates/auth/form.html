@@ -102,16 +102,18 @@ margin-right: 14vw;
          
             <form action='login' method="post">
                <table border='1'>
+                  <input type="hidden" name="beforePageURL" data-th-value="${session.redirectURI}">
                   <h1 class="contact_text1">Login</h1>
                   <tr>
-                     <input type="text" class="email-bt" placeholder="ID를 입력해주세요" size='30' name ="id" data-th-value="${id}">
+                     <input type="text" class="email-bt" placeholder="ID를 입력해주세요" size='30' name ="id" data-th-value="${id}" id ="id">
                   </tr>
                   <tr>
-                     <input type="password" class="email-bt" placeholder="Password를 입력해주세요" name="password">
+                     <input type="password" class="email-bt" placeholder="Password를 입력해주세요" name="password" id = "password">
                   </tr>
                </table>
+               <div data-th-if="${loginFail}">아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.</div>
                <p>
-                  <button type='submit'class="btnon1" >로그인</button>
+                  <button type="button"class="btnon1" id = "login" onclick = "bt(this.form);">로그인</button>
                </p>
                <p>
                <div class="center">
@@ -139,7 +141,40 @@ margin-right: 14vw;
          </p>
       </div>
       <!-- copyright section end -->
+      
+      
+          <script>
+       function bt(frm) {
+           var id = frm.id.value;
+           var password = frm.password.value;
+           
+           if (id.trim() == ''| password.trim()== '') {
+               swal("ID나 password을 입력해주세요");
+               return false;
+           } 
+           $.ajax({
+               type: "POST",
+               url: "login",
+               data: {id:id, password:password},
+               success: function(data) {
+                 console.log(data);
+                 if(data == 'true'){
+                   swal("로그인 성공입니다.");
+                 } else {
+                   swal("ID와 password가 다릅니다.");
+                 }
+               }
+             });
+           
+             frm.submit();
+           }
+
+       
+      </script>
+      
+      
       <!-- Javascript files-->
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
       <script src="../js/jquery.min.js"></script>
       <script src="../js/popper.min.js"></script>
       <script src="../js/bootstrap.bundle.min.js"></script>

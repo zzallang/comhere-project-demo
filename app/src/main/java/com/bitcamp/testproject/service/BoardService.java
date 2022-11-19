@@ -55,15 +55,14 @@ public interface BoardService {
 
   int countTotalBoard(int no) throws Exception;
 
-  ////////////
-
   //은지
-  // 마이페이지 작성글
   List<Board> findByMyPost(Map<String, Object> paramMap) throws Exception;
 
   int countMyPost(int memberNo) throws Exception;
 
 
+
+  ////////////
 }
 
 

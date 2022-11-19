@@ -76,7 +76,7 @@
     WHERE
       nick = #{nickname}
   </select>
-
+  
   <!-- 이메일 중복체크 -->
    <select id="emailCheck" parameterType="String" resultType="Integer">
     SELECT 
@@ -127,6 +127,25 @@
     sports s ON s.sno = fs.sno
     WHERE 
       m.mno=#{no};
+  </select>
+  
+  <select id="findByFilepath" resultMap="memberMap">
+    SELECT
+      filepath
+    FROM
+      member
+    WHERE
+      mno=#{no}
+  </select>
+  
+  <select id="getFileByMemberNo" resultType="String">
+    SELECT 
+      filepath
+    FROM 
+      member
+    WHERE
+      act = 1 and
+      mno=#{value}
   </select>
   
   <select id="findAll" resultMap="memberMap">
@@ -182,7 +201,8 @@
       email=#{email}, 
       pwd=sha2(#{password},256),
       nick=#{nickname},
-      tel=#{tel}
+      tel=#{tel},
+      filepath=#{filepath}
     WHERE 
       mno=#{no}
   </update>
@@ -199,6 +219,14 @@
      email=#{email}
   </select>
 
+  <select id="idEmailCheck" resultType="member">
+    select
+    name
+    from
+    member
+    where
+    id=#{id} and email=#{email}
+  </select>
 
 </mapper>
 

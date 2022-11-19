@@ -182,6 +182,7 @@ public class DefaultBoardService implements BoardService {
 
   @Override
   public List<Map<String, Object>> listWithKeyword(Criteria cri, Search search) {
+    System.out.println("bsercice" + cri);
     // 값들을 Map에 담아서 보내기
     Map<String, Object> searchObj = new HashMap<>(); 
     searchObj.put("search", search);
@@ -191,9 +192,8 @@ public class DefaultBoardService implements BoardService {
   }
 
   //////////
-
   // 은지
-  // 마이페이지 작성글
+  // 작성글
   @Override
   public List<Board> findByMyPost(Map<String, Object> paramMap) throws Exception {
     return boardDao.findByMyPost(paramMap);
@@ -203,7 +203,6 @@ public class DefaultBoardService implements BoardService {
   public int countMyPost(int memberNo) throws Exception {
     return boardDao.countMyPost(memberNo);
   }
-
 
 }
 

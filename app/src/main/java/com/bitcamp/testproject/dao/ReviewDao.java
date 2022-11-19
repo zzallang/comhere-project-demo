@@ -14,6 +14,14 @@ public interface ReviewDao {
 
   Review findByNo(int reviewNo);
 
+  int insert(Review review);
+
+  int insertFiles(Review review);
+
+  Double findStarByNo(
+      @Param("userNo")int userNo, 
+      @Param("sportNo")int sportNo);
+
 }
 
 

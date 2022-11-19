@@ -12,6 +12,8 @@ public interface MemberDao {
 
   Member findByNo(int no);
 
+  String getFileByMemberNo(int no);
+
   int update(Member member);
 
   int updataPassWrod(Member member);
@@ -53,6 +55,12 @@ public interface MemberDao {
       @Param("password") String password,
       @Param("email") String email,
       @Param("id") String id);
+
+  Member idEmailCheck(
+      @Param("id") String id,
+      @Param("email") String email);
+
+
 }
 
 

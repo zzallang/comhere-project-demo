@@ -1,6 +1,7 @@
 package com.bitcamp.testproject.dao;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.bitcamp.testproject.vo.Criteria;
@@ -48,13 +49,25 @@ public interface PartyDao {
 
   int checkOwner(int partyNo);
 
-  Double findStarByNo(int no);
-
   // 모임 주최자 추가를 위한 현재 생성 모임 pno 구하기
   int findNowPartyNo();
 
   String getThumbnailByPartyNo(int no);
 
+
+  List<Party> findByMyParty(Map<String, Object> paramMap);
+
+  int countMyParty(int memberNo);
+
+  List<Party> findByJoinParty(Map<String, Object> paramMap);
+
+  int countJoinParty(int memberNo);
+
+  List<Party> findByEndParty(Map<String, Object> paramMap);
+
+  List<Party> findByEndParty2(Map<String, Object> paramMap);
+
+  int countEndParty(int memberNo);
 }
 
 

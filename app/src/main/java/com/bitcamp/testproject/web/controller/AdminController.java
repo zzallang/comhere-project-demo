@@ -36,6 +36,7 @@ public class AdminController {
       return "redirect:/admin";
     }
 
+
     //    if(member != null) {
     //      ModelAndView mv = new ModelAndView("redirect:" + beforePageURL);
     //      mv.addObject("member", member);
@@ -46,6 +47,10 @@ public class AdminController {
     //    mv.addObject("member", member);
     //    return mv;
 
+  }
+
+  @GetMapping("mngment")
+  public void mngment() throws Exception {
   }
 
 
@@ -141,7 +146,33 @@ public class AdminController {
   //  }
   //
   //  // 헌식 끝
-
+  //
+  //  // // 아이디 중복 체크 확인
+  //  // @PostMapping("id-check")
+  //  // @ResponseBody
+  //  // public String idCheck(Member member) throws Exception {
+  //  // return memberService.checkId(member);
+  //  // }
+  //
+  //  // 은지
+  //  @GetMapping("join")
+  //  public String form(Model model) throws Exception {
+  //    model.addAttribute("data", "join page");
+  //    return "auth/join";
+  //  }
+  //
+  //  @PostMapping("add")
+  //  public String add(Member member) throws Exception {
+  //    memberService.add(member);
+  //    return "redirect:join";
+  //  }
+  //
+  //  @GetMapping("mypage-member")
+  //  public String myPageMember(Member member) {
+  //
+  //    return "myPageMember";
+  //  }
+  //
   //
 
 }

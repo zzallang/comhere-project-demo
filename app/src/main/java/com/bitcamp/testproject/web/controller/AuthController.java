@@ -47,9 +47,20 @@ public class AuthController {
 
   @PostMapping("login")
   public ModelAndView login(String id, String password, HttpServletResponse response,
-      HttpSession session) throws Exception {
-    //    , String beforePageURL
+      HttpSession session, String beforePageURL) throws Exception {
+    System.out.println("너 머야?" + beforePageURL);
     Member member = memberService.get(id, password);
+
+    String[] url = beforePageURL.split("app/");
+    if (url.length > 1) {
+      String[] url2 = url[1].split("/");
+      if (url2[0].equals("auth")) {
+        ModelAndView mv = new ModelAndView("redirect:../");
+        System.out.println("도착함 ");
+        session.setAttribute("loginMember", member);
+        return mv;    
+      }
+    }
 
     if (member != null) {
       session.setAttribute("loginMember", member);
@@ -64,17 +75,16 @@ public class AuthController {
     response.addCookie(cookie);
 
     if(member != null) {
-      ModelAndView mv = new ModelAndView("redirect:/");
-      //      ModelAndView mv = new ModelAndView("redirect:" + beforePageURL);
+      ModelAndView mv = new ModelAndView("redirect:../");
+
       mv.addObject("member", member);
+      return mv;
+    } else {
+      ModelAndView mv = new ModelAndView("redirect:form");
       return mv;
     }
 
-    ModelAndView mv = new ModelAndView("auth/loginResult");
-    mv.addObject("member", member);
-    return mv;
   }
-
 
   @GetMapping("findId")
   public String findId() {
@@ -102,7 +112,7 @@ public class AuthController {
       session.setAttribute("findId", member);
     }
 
-    ModelAndView mv = new ModelAndView("auth/findIdResult");
+    ModelAndView mv = new ModelAndView("auth/form");
     mv.addObject("member", member);
     return mv;
   }
@@ -147,13 +157,8 @@ public class AuthController {
   @GetMapping("logout")
   public String logout(HttpSession session, HttpServletRequest request) throws Exception {
 
-    String beforePageURL = request.getHeader("Referer");
-    request.getSession().setAttribute("redirectURI", beforePageURL);
-
-
     session.invalidate();
-    //    return "redirect:../";
-    return "redirect:" + beforePageURL;
+    return "redirect:../";
   }
 
 
@@ -166,6 +171,19 @@ public class AuthController {
     } 
     return "redirect:form";
   }
+
+  @PostMapping("idEmailCheck")
+  @ResponseBody
+  public String idEmailCheck( String id,String email , HttpSession session) throws Exception {
+    Member result = memberService.idEmailCheck(id,email);
+
+    if (result == null) {
+      System.out.println("회원 없음");
+      return "false";
+    } 
+    return "true";
+  }
+
 
   // 헌식 끝
 

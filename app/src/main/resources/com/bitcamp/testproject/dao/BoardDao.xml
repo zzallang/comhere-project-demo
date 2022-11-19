@@ -8,11 +8,12 @@
     <id column="bno" property="no"/>
     <result column="cateno" property="cateno"/>
     <result column="title" property="title"/>
-    <result column="act" property="active"/>
+    <result column="act" property="act"/>
     <result column="cont" property="content"/>
     <result column="cdt" property="createdDate"/>
     <result column="vw_cnt" property="viewCount"/>
     <result column="thumbnail" property="thumbnail"/>
+    <result column="ment_cnt" property="commentCount"/>
     
     <association property="writer" javaType="member">
       <id column="mno" property="no"/>
@@ -79,6 +80,8 @@
           board b
           join member m on b.mno = m.mno
           join board_category bc on b.cateno = bc.cateno
+        where
+          b.act = 1
         order by 
           vw_cnt desc
         limit 0, 10;
@@ -96,6 +99,7 @@
         join member m on b.mno = m.mno
         join board_category bc on b.cateno = bc.cateno
       where
+        b.act = 1 and
         b.cateno = 3
       group by
         b.bno
@@ -119,6 +123,7 @@
 		      join member m on b.mno = m.mno
 		      join board_category bc on b.cateno = bc.cateno
 		    where
+		      b.act = 1 and
 		      b.cateno = #{catenoToPage}
         group by
           b.bno
@@ -144,6 +149,7 @@
       board b
       join member m on b.mno = m.mno
     where 
+      b.act = 1 and
       cateno = #{cateno}
       <trim prefix="and (" suffix=")" prefixOverrides="OR">
           <foreach collection="search.typeArr" item="type">
@@ -188,6 +194,7 @@
       board b
       join member m on b.mno = m.mno
     where
+      b.act = 1 and
       b.bno = #{value}
     order by
       bno desc
@@ -211,6 +218,7 @@
       board b
       join member m on b.mno = m.mno
     where
+      b.act = 1 and
       b.thumbnail = #{thumbnail}
     order by
       bno desc
@@ -237,6 +245,7 @@
     from 
       board
     where 
+      act = 1 and
       bno = #{value}
   </select>
 
@@ -276,11 +285,12 @@
           b.vw_cnt,
           b.cateno,
           b.thumbnail
-        from 
+        from
           board b
           join member m on b.mno = m.mno
           join board_category bc on b.cateno = bc.cateno
         where
+          b.act = 1 and
           b.cateno = #{cri.catenoToPage}
 					<trim prefix="and (" suffix=")" prefixOverrides="OR">
 					    <foreach collection="search.typeArr" item="type">
@@ -304,32 +314,25 @@
         limit #{cri.pagesStart}, #{cri.perPageNum}
   </select>
   
-	<!-- 검색 조건문 -->
-	
-	<select id="findByKeyword00" resultMap="boardMap" parameterType="hashMap">
-     <![CDATA[
-        select
-          b.bno,
-          b.title,
-          m.name,
-          b.cdt,
-          b.vw_cnt,
-          b.cateno,
-          b.thumbnail
-        from 
-          board b
-          join member m on b.mno = m.mno
-          join board_category bc on b.cateno = bc.cateno
-        where
-          b.cateno = #{cri.catenoToPage} and
-          b.title like concat('%',#{keyword},'%')
-        order by 
-          bno desc
-        limit #{cri.pagesStart}, #{cri.perPageNum}
-      ]]>
+  <select id="findBoardsOfScrap" resultMap="boardMap" parameterType="HashMap">
+    select
+      b.bno,
+      b.cateno,
+      b.title,
+      b.cdt,
+      b.act
+    from
+      scrap s 
+      join board b on b.bno=s.bno
+    where
+      s.mno=3
+    order by
+      bno desc
+    limit #{cri.pagesStart}, #{cri.perPageNum}
   </select>
 
 <!-- 은지 -->
+<!-- 
   <select id="findByMyPost" parameterType="map" resultMap="boardMap" >
     SELECT
       *
@@ -341,6 +344,36 @@
       act = 1
     ORDER BY 
       bno desc
+    limit #{pagesStart}, #{perPageNum}
+  </select>
+   -->
+  <select id="findByMyPost" parameterType="map" resultMap="boardMap" >
+    SELECT
+    b.*,
+    cmt.cnt ment_cnt
+    FROM
+      board b
+    left join
+      (
+      SELECT
+        tb.bno tbno,
+        count(*) cnt
+      FROM
+        board_comment tc
+        join board tb on tb.bno = tc.bno
+      WHERE
+        tb.mno = #{memberNo}
+        AND
+        tb.act = 1
+      GROUP BY
+        tc.bno
+      ) cmt on cmt.tbno = b.bno
+    WHERE
+      b.mno = #{memberNo}
+      AND
+      b.act = 1
+    ORDER BY 
+      b.bno desc
     limit #{pagesStart}, #{perPageNum}
   </select>
   

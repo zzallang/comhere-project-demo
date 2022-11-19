@@ -3,40 +3,41 @@ package com.bitcamp.testproject.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.bitcamp.testproject.service.BoardReportService;
-import com.bitcamp.testproject.service.BoardService;
+import com.bitcamp.testproject.vo.Member;
 
 @Controller
-@RequestMapping("/report/")
+@RequestMapping("/boardReport/")
 public class BoardReportController {
 
   @Autowired
   ServletContext sc;
   @Autowired
-  BoardService boardService;
-  @Autowired
   BoardReportService boardReportService;
 
 
-  @GetMapping("insertReport")
-  public void insertReport(      
-      int id,
-      int loginMemberNo,
-      int boardNo) throws Exception {
-
+  @PostMapping("add")
+  public String add(int tatlleNo, int boardNo, int value, String name, HttpSession session) throws Exception {
     Map<String, Object> reportMap = new HashMap<>();
 
-    reportMap.put("id",id);
-    reportMap.put("loginMemberNo",loginMemberNo);
-    reportMap.put("boardNo",boardNo);
+    // 신고사유, 신고한 회원, 신고 대상번호 데이터를 담아 놓는다.
+    reportMap.put("trno", tatlleNo);
+    reportMap.put("mno", ((Member) session.getAttribute("loginMember")).getNo());
+    reportMap.put("decbno", value);
 
-    boardReportService.addReport(reportMap);
+    if (name.equals("댓글")) {
+      boardReportService.addCommentReport(reportMap);
+
+    }
+    if (name.equals("게시글")) {
+      boardReportService.addBoardReport(reportMap);
+    }
+    return"redirect:../board/detail?no=" + boardNo;
   }
-
-
 
 }

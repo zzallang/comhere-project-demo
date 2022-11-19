@@ -44,6 +44,8 @@ public interface BoardDao {
 
   int findListTotalCountWithSearch(Map<String, Object> countObj);
 
+  List<Board> findBoardsOfScrap(Map<String, Object> paramMap);
+
   //
 
   //  int insert(Board board);
@@ -74,6 +76,7 @@ public interface BoardDao {
   List<Board> findByMyPost(Map<String, Object> paramMap);
 
   int countMyPost(int memberNo);
+
 
 }
 

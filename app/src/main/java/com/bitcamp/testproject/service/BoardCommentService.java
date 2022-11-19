@@ -2,7 +2,6 @@ package com.bitcamp.testproject.service;
 
 import java.util.List;
 import java.util.Map;
-import com.bitcamp.testproject.vo.Board;
 import com.bitcamp.testproject.vo.Comment;
 
 public interface BoardCommentService {
@@ -23,12 +22,9 @@ public interface BoardCommentService {
 
   int deleteAll(int no);
 
+  int countTotalCommentOfMember(int no);
 
-  // 은지
-  // 마이페이지 작성 댓글
+  List<Comment> getCommentsOfMember(Map<String, Object> paramMap);
 
-  List<Board> findByMyComment(Map<String, Object> paramMap) throws Exception;
-
-  int countMyComment(int memberNo) throws Exception;
 
 }

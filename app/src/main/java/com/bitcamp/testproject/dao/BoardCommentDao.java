@@ -3,7 +3,6 @@ package com.bitcamp.testproject.dao;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
-import com.bitcamp.testproject.vo.Board;
 import com.bitcamp.testproject.vo.Comment;
 
 @Mapper
@@ -25,10 +24,8 @@ public interface BoardCommentDao {
 
   int deleteAll(int boardNo);
 
-  // 은지
-  // 마이페이지 작성 댓글
-  List<Board> findByMyComment(Map<String, Object> paramMap);
-
-  int countMyComment(int memberNo);
+  int findTotalCommentOfMember(int memberNo);
+  
+  List<Comment> findCommentsByMemberNo(Map<String, Object> paramMap);
 
 }

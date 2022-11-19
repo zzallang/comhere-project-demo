@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bitcamp.testproject.dao.BoardCommentDao;
-import com.bitcamp.testproject.vo.Board;
 import com.bitcamp.testproject.vo.Comment;
 
 @Service
@@ -27,6 +26,10 @@ public class DefaultBoardCommentService implements BoardCommentService {
   @Override
   public List<Comment> getComments(Map<String, Object> map) {
     return boardCommentDao.findByBoardNo(map);
+  }
+  @Override
+  public List<Comment> getCommentsOfMember(Map<String, Object> paramMap) {
+    return boardCommentDao.findCommentsByMemberNo(paramMap);
   }
 
   @Override
@@ -54,18 +57,10 @@ public class DefaultBoardCommentService implements BoardCommentService {
     return boardCommentDao.deleteAll(boardNo);
   }
 
-  // 은지
-  // 마이페이지 작성 댓글
   @Override
-  public List<Board> findByMyComment(Map<String, Object> paramMap) throws Exception {
-    return boardCommentDao.findByMyComment(paramMap);
+  public int countTotalCommentOfMember(int MemberNo) {
+    return boardCommentDao.findTotalCommentOfMember(MemberNo);
   }
-
-  @Override
-  public int countMyComment(int memberNo) throws Exception {
-    return boardCommentDao.countMyComment(memberNo);
-  }
-
 }
 
 

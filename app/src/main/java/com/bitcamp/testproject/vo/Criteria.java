@@ -23,7 +23,7 @@ public class Criteria {
   // 최초 게시판 목록에 들어왔을 때의 기본 셋팅 (1페이지에 10개의 게시글 출력)
   public Criteria() {
     this.page = 1;
-    this.perPageNum = 10;
+    this.perPageNum = 4;
   }
 
   // getter/setter 셋팅

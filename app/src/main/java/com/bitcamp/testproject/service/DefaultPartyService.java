@@ -1,6 +1,8 @@
 package com.bitcamp.testproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.testproject.dao.PartyCommentDao;
 import com.bitcamp.testproject.dao.PartyDao;
 import com.bitcamp.testproject.dao.PartyMemberDao;
+import com.bitcamp.testproject.dao.ReviewDao;
 import com.bitcamp.testproject.vo.Criteria;
 import com.bitcamp.testproject.vo.Party;
 import com.bitcamp.testproject.vo.PartyMember;
@@ -21,6 +24,8 @@ public class DefaultPartyService implements PartyService {
   PartyMemberDao partyMemberDao;
   @Autowired
   PartyCommentDao partyCommentDao;
+  @Autowired
+  ReviewDao reviewDao;
 
   @Transactional
   @Override
@@ -76,8 +81,10 @@ public class DefaultPartyService implements PartyService {
   @Override
   public Party get(int no) throws Exception {
     Party party = partyDao.findByNo(no); // 첨부파일 데이터까지 조인하여 select를 한 번만 실행한다.
-    if (partyDao.findStarByNo(no) != null) {
-      party.setStar(partyDao.findStarByNo(no));
+    int userNo = party.getUser().getNo();
+    int sportNo = party.getSports().getNo();
+    if (reviewDao.findStarByNo(userNo, sportNo) != null) {
+      party.setStar(reviewDao.findStarByNo(userNo, sportNo));
     }
     return party;
   }
@@ -96,7 +103,18 @@ public class DefaultPartyService implements PartyService {
 
   @Override
   public List<Party> list(Criteria cri) throws Exception {
-    return partyDao.findAll(cri);
+    List<Party> list = partyDao.findAll(cri);
+    List<Party> list2 = new ArrayList<>();
+    for (Party party : list) {
+      int userNo = party.getUser().getNo();
+      int sportNo = party.getSports().getNo();
+      party.setStar(reviewDao.findStarByNo(userNo, sportNo));
+
+      list2.add(party);
+    }
+
+    return list2;
+
   }
 
   @Override
@@ -131,12 +149,97 @@ public class DefaultPartyService implements PartyService {
     int perPageNum = cri.getPerPageNum();
     List<Party> result = partyDao.findAll2(
         gu, sports, partyTime, partyDate, searchText, listStar, listCreate, listPartyDate, pagesStart, perPageNum);
-    return result;
+    List<Party> list2 = new ArrayList<>();
+    for (Party party : result) {
+      int userNo = party.getUser().getNo();
+      int sportNo = party.getSports().getNo();
+      party.setStar(reviewDao.findStarByNo(userNo, sportNo));
+      list2.add(party);
+    }
+
+    return list2;
+
   }
 
   @Override
   public int checkOwner(int partyNo) {
     return partyDao.checkOwner(partyNo);
+  }
+
+
+  @Override
+  public List<Party> findByMyParty(Map<String, Object> paramMap) throws Exception {
+    return partyDao.findByMyParty(paramMap);
+  }
+
+  @Override
+  public int countMyParty(int memberNo) throws Exception {
+    return partyDao.countMyParty(memberNo);
+  }
+
+  @Override
+  public List<Party> findByJoinParty(Map<String, Object> paramMap) throws Exception {
+    return partyDao.findByJoinParty(paramMap);
+  }
+
+  @Override
+  public int countJoinParty(int memberNo) throws Exception {
+    return partyDao.countJoinParty(memberNo);
+  }
+
+  @Override
+  public List<Party> findByEndParty(Map<String, Object> paramMap) throws Exception {
+    List<Party> endPartyListTotal = new ArrayList<>();
+
+    List<Party> endPartyList = partyDao.findByEndParty(paramMap);
+
+    int[] partyNumbers = new int[endPartyList.size()];
+
+    for (int i=0; i<endPartyList.size(); i++) {
+      Party endParty = endPartyList.get(i);
+      endParty.setReviewAct("작성완료");
+      partyNumbers[i] = endParty.getNo();
+      endPartyListTotal.add(endParty);
+    }
+
+    List<Party> endPartyList2 = partyDao.findByEndParty2(paramMap);
+
+    for (Party endParty : endPartyList2) {
+
+      if (endParty.getReviewNo() == 0) {
+        endParty.setReviewAct("작성하기");
+        endPartyListTotal.add(endParty);
+      }
+      else {
+        int check = 0;
+
+        for (int k=0; k<partyNumbers.length; k++) {
+          int count = 0;
+
+          for (int j=0; j <partyNumbers.length; j++) {
+            if (partyNumbers[j] == endParty.getNo()) {
+              continue;
+            }
+            count++;
+          }
+
+          if (count == partyNumbers.length) {
+            if (check == 0) {
+              endParty.setReviewAct("작성하기");
+              endPartyListTotal.add(endParty);
+              check++;
+            }
+          }
+        }
+      }
+
+    }
+    return endPartyListTotal;
+  }
+
+  @Override
+  public int countEndParty(int memberNo) throws Exception {
+    return partyDao.countEndParty(memberNo);
   }
 
 }

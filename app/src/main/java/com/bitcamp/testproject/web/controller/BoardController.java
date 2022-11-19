@@ -93,6 +93,7 @@ public class BoardController {
     pageMaker.setCri(cri);
     pageMaker.setTotalCount(boardCommentService.countCommentListTotal(no));
 
+
     // 조회수 증가     
     viewCountUp(no, request, response);
 
@@ -109,6 +110,7 @@ public class BoardController {
 
   // 조회수 증가 
   private void viewCountUp(int no, HttpServletRequest request, HttpServletResponse response) {
+
     Cookie oldCookie = null;
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
@@ -137,6 +139,7 @@ public class BoardController {
 
   @GetMapping("list")
   public ModelAndView list(Criteria cri, int no, Search search) throws Exception {
+    System.out.println("보cri" + cri);
     ModelAndView mav;
     if (no == 3) {
       // 챌린지 게시판일 경우 (listOfClg.html을 실행하고 게시글 9개만 출력)
@@ -152,14 +155,13 @@ public class BoardController {
     // 검색 기능인지 단지 목록 출력인지에 따라 다른 메서드 호출 
     List<Map<String,Object>> list;
     int boardTotalCount;
-    if (search.getKeyword() == null) {
+    if (search.getKeyword() == null || search.getKeyword() == "") {
       list = boardService.list(cri);
       boardTotalCount = boardService.countTotalBoard(no);
     } else {
       list = boardService.listWithKeyword(cri, search);
       boardTotalCount = boardService.countTotalBoardWithSearch(no, search);
     }
-    System.out.println("출력한 리스트 사이즈>>>" + list.size());
 
     // 페이징하기 위한 연산 
     PageMaker pageMaker = new PageMaker();
@@ -229,7 +231,6 @@ public class BoardController {
 
     Member loginMember = (Member) session.getAttribute("loginMember");
     Board board = boardService.get(no);
-    System.out.println(board);
 
     if (board.getWriter().getNo() != loginMember.getNo()) {
       throw new Exception("게시글 작성자가 아닙니다.");

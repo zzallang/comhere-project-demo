@@ -30,13 +30,13 @@
     WHERE
       <choose>
           <when test="search.type == 'T'.toString()">
-              title like concat('%',#{search.keyword},'%') 
+              title like concat('%',#{search.noticeKeyword},'%') 
           </when>
           <when test="search.type == 'C'.toString()">
-              cont like concat('%',#{search.keyword},'%') 
+              cont like concat('%',#{search.noticeKeyword},'%') 
           </when>
             <when test="search.type == 'TC'.toString()">
-              title like concat('%',#{search.keyword},'%') OR cont like concat('%',#{search.keyword},'%') 
+              title like concat('%',#{search.noticeKeyword},'%') OR cont like concat('%',#{search.noticeKeyword},'%') 
           </when>
       </choose>
     ORDER BY 
