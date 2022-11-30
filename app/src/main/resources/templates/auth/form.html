@@ -102,7 +102,7 @@ body .container {
 
 </head>
 <body>
-	<!-- header section start -->
+  <!-- header section start -->
       <div class="header_section windowWidth" >
         <div class="container-fluid windowWidth">
           <nav class="navbar navbar-expand-lg navbar-light windowWidth">
@@ -121,40 +121,40 @@ body .container {
         </div>
       </div>
       <!-- header section end -->
-	<!-- contact section start -->
-	<div class="contact_section9 layout_padding9">
-		<div class="container">
-			<div class="">
-				<div class="form-container">
-					<form action='login' method="post">
-						<table border='1'>
-							<input type="hidden" name="beforePageURL" data-th-value="${session.redirectURI}">
-							<!-- <h1 class="contact_text1">Login</h1> -->
-							<tr>
-								<input type="text" class="email-bt9" placeholder="ID를 입력해주세요" size='30' name="id" data-th-value="${id}" id="id">
-							</tr>
-							<tr>
-								<input type="password" class="email-bt9" placeholder="Password를 입력해주세요" name="password" id="password">
-							</tr>
-						</table>
-						<div data-th-if="${loginFail}">아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.</div>
-						<p>
-							<button type="button" class="btnon1" id="login" onclick="bt(this.form);">로그인</button>
-						</p>
-						<p>
-						<div class="center">
-							<a href="find-id">아이디 찾기</a> | <a href="find-password">비밀번호 찾기</a> | <a href="../member/join">회원가입</a>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- contact section end -->
+  <!-- contact section start -->
+  <div class="contact_section9 layout_padding9">
+    <div class="container">
+      <div class="">
+        <div class="form-container">
+          <form action='login' method="post">
+            <table border='1'>
+              <input type="hidden" name="beforePageURL" data-th-value="${session.redirectURI}">
+              <!-- <h1 class="contact_text1">Login</h1> -->
+              <tr>
+                <input type="text" class="email-bt9" placeholder="ID를 입력해주세요" size='30' name="id" data-th-value="${id}" id="id">
+              </tr>
+              <tr>
+                <input type="password" class="email-bt9" placeholder="Password를 입력해주세요" name="password" id="password">
+              </tr>
+            </table>
+            <div data-th-if="${loginFail}">아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.</div>
+            <p>
+              <button type="button" class="btnon1" id="login" onclick="bt(this.form);">로그인</button>
+            </p>
+            <p>
+            <div class="center">
+              <a href="find-id">아이디 찾기</a> | <a href="find-password">비밀번호 찾기</a> | <a href="../member/join">회원가입</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- contact section end -->
 
 
 
-		<script>
+    <script>
        function bt(frm) {
            var id = frm.id.value;
            var password = frm.password.value;
@@ -163,45 +163,48 @@ body .container {
                swal("ID나 Password를 입력해주세요");
                return false;
            } 
-           $.ajax({
-               type: "POST",
-               url: "idPasswordCheck",
-               data: {id:id, password:password},
-               success: function(data) {
-                 console.log(data);
-                 if(data == 'true'){
-                    frm.submit();
-                 } else if (data == 'false'){
-                	 swal({
-                         text: "ID와 비밀번호를 확인해주세요.",
-                         icon: "error",
-                         button: "확인",
-                       });
-                 
-               } else if (data == 'active'){
-                   swal("존재하지 않는 계정입니다.")
+           
+           var json = {
+                   type: "POST",
+                   url: "idPasswordCheck",
+                   data: {id:id, password:password},
+                   success: function(data) {
+                     console.log(data);
+                     if(data == 'true'){
+                        frm.submit();
+                     } else if (data == 'false'){
+                       swal({
+                             text: "ID와 비밀번호를 확인해주세요.",
+                             icon: "error",
+                             button: "확인",
+                           });
+                     
+                   } else if (data == 'active'){
+                       swal("존재하지 않는 계정입니다.")
+                     }
+                   }
                  }
-               }
-             });
+           
+           $.ajax(json);
            }
 
        
       </script>
 
 
-		<!-- Javascript files-->
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-		<script src="../js/jquery.min.js"></script>
-		<script src="../js/popper.min.js"></script>
-		<script src="../js/bootstrap.bundle.min.js"></script>
-		<script src="../js/jquery-3.0.0.min.js"></script>
-		<script src="../js/plugin.js"></script>
-		<!-- sidebar -->
-		<script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
-		<script src="../js/custom.js"></script>
-		<!-- javascript -->
-		<script src="../js/owl.carousel.js"></script>
-		<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-	</div>
+    <!-- Javascript files-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/jquery-3.0.0.min.js"></script>
+    <script src="../js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../js/custom.js"></script>
+    <!-- javascript -->
+    <script src="../js/owl.carousel.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+  </div>
 </body>
 </html>

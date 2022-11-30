@@ -122,11 +122,11 @@
     LEFT join 
       favorite_region fr on fr.mno = m.mno
     LEFT join
-    region r ON r.rno = fr.rno
+      region r ON r.rno = fr.rno
     LEFT join
-    favorite_sports fs ON fs.mno = m.mno
+      favorite_sports fs ON fs.mno = m.mno
     LEFT join
-    sports s ON s.sno = fs.sno
+      sports s ON s.sno = fs.sno
     WHERE 
       m.mno=#{no};
   </select>

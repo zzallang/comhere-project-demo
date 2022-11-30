@@ -1,15 +1,16 @@
 package com.bitcamp.testproject.service;
 
 import java.util.List;
+import javax.servlet.http.Part;
 import com.bitcamp.testproject.vo.Member;
 
 // 비즈니스 로직을 수행하는 객체의 사용규칙(호출규칙)
 //
 public interface MemberService {
 
-  void add(Member member) throws Exception;
+  void add(Member member, Part file) throws Exception;
 
-  boolean update(Member member) throws Exception;
+  boolean update(Member member, Part file, int memberNo) throws Exception;
 
   Member get(int no) throws Exception;
 
@@ -38,6 +39,7 @@ public interface MemberService {
   Member idPasswordCheck(String id, String password) throws Exception;
 
   Member findIdCheck(String name, String email) throws Exception;
+
 }
 
 

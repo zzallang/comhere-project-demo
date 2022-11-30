@@ -1,11 +1,6 @@
 package com.bitcamp.testproject.web.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +17,6 @@ import com.bitcamp.testproject.service.FavoriteSportsService;
 import com.bitcamp.testproject.service.MemberService;
 import com.bitcamp.testproject.service.RegionService;
 import com.bitcamp.testproject.service.SportsService;
-import com.bitcamp.testproject.vo.FavoriteRegion;
-import com.bitcamp.testproject.vo.FavoriteSports;
 import com.bitcamp.testproject.vo.Member;
 
 @Controller
@@ -51,30 +44,9 @@ public class MemberController {
     return "auth/join";
   }
 
-  @Transactional
   @PostMapping("addjoin")
   public ModelAndView add(Member member, Part file) throws Exception {
-    if (member.getId() == null || member.getId() == "") {
-      ModelAndView mv = new ModelAndView("redirect:../auth/form");
-      return mv;
-    }
-    System.out.println(file);
-    System.out.println(file.getName());
-
-    String dirPath = sc.getRealPath("/member/files");
-
-    if (file != null) {
-      String filename = UUID.randomUUID().toString();
-      file.write(dirPath + "/" + filename);
-      System.out.println(filename + "\n파일네임 들어왔냐!>!>!");
-      member.setFilepath(filename);
-    }
-
-    member.setFavoriteRegion(saveRegion(member));
-    member.setFavoriteSports(saveSports(member));
-    //    member.setFilepath(saveAttachedFile(file));
-    memberService.add(member);
-    System.out.println("member=" + member);
+    memberService.add(member, file);
     ModelAndView mv = new ModelAndView("redirect:../auth/form");
     return mv;
   }
@@ -85,15 +57,11 @@ public class MemberController {
   }
 
   @GetMapping("my-info")
-  public String confirmation(HttpSession session, Model model, Part file) throws Exception {
+  public String confirmation(HttpSession session, Model model) throws Exception {
     Member loginMember = (Member) session.getAttribute("loginMember");
-    Member member = memberService.get(loginMember.getNo());
-    member.setNo(loginMember.getNo());
-    model.addAttribute("member", member);
+    model.addAttribute("member", memberService.get(loginMember.getNo()));
     model.addAttribute("regionList", regionService.list());
     model.addAttribute("sportsList", sportsService.list());
-    System.out.println("loginMember :" + loginMember);
-    System.out.println("member :" + member.toString());
     return "member/myInfo";
   }
 
@@ -103,15 +71,12 @@ public class MemberController {
     Member loginMember = (Member) session.getAttribute("loginMember");
     favoriteRegionService.deleteFavoriteRegion(loginMember.getNo());
     favoriteSportsService.deleteFavoriteSports(loginMember.getNo());
-    member.setNo(loginMember.getNo());
-    member.setFilepath(saveAttachedFile(file));
-    member.setFavoriteRegion(saveRegion(member));
-    member.setFavoriteSports(saveSports(member));
+
+    memberService.update(member,file, loginMember.getNo());
+
     favoriteRegionService.addFavoriteRegion(member);
     favoriteSportsService.addFavoriteSports(member);
-    //member update logic
-    //...
-    memberService.update(member);
+
     ModelAndView mv = new ModelAndView("redirect:my-info");
     return mv;
   }
@@ -152,9 +117,7 @@ public class MemberController {
   @ResponseBody
   public int nickCheck(String nickname) throws Exception{
     int result = memberService.nickCheck(nickname);
-    return result;  
-
-
+    return result;
   }
 
   @PostMapping("verification-pw-check")
@@ -167,33 +130,5 @@ public class MemberController {
     return result;
   }
 
-  public List<FavoriteRegion> saveRegion(Member member) {
-    List<FavoriteRegion> favoriteRegion = new ArrayList<>();
-    for (int no : member.getRegionDomain()) {
-      favoriteRegion.add(new FavoriteRegion(no));
-    }
 
-    return favoriteRegion;
-  }
-
-  public List<FavoriteSports> saveSports(Member member) {
-    List<FavoriteSports> favoriteSports = new ArrayList<>();
-    for (int no : member.getSportsDomain()) {
-      favoriteSports.add(new FavoriteSports(no));
-    }
-
-    return favoriteSports;
-  }
-
-  private String saveAttachedFile(Part file) throws IOException, ServletException {
-    String dirPath = sc.getRealPath("/member/files");
-    // 첨부파일이 있다면 실행
-    if (file.getSize() != 0) {
-      String filename = UUID.randomUUID().toString();
-      file.write(dirPath + "/" + filename);
-      System.out.println(filename + "\n파일네임 들어왔냐!>!>!");
-      return filename;
-    }
-    return null;
-  }
 }

@@ -53,21 +53,6 @@ public class AuthController {
 
     Member member = memberService.get(id, password);
 
-    String[] url = beforePageURL.split("app/");
-    if (url.length > 1) {
-      String[] url2 = url[1].split("/");
-      if (url2[0].equals("auth")) {
-        ModelAndView mv = new ModelAndView("redirect:../");
-        System.out.println("도착함 ");
-        session.setAttribute("loginMember", member);
-        return mv;    
-      }
-    }
-
-    if (member != null) {
-      session.setAttribute("loginMember", member);
-    }
-
     Cookie cookie = new Cookie("id", id);
     if (id == null) {
       cookie.setMaxAge(0);
@@ -77,6 +62,7 @@ public class AuthController {
     response.addCookie(cookie);
 
     if(member != null) {
+      session.setAttribute("loginMember", member);
       ModelAndView mv = new ModelAndView("redirect:../");
 
       mv.addObject("member", member);

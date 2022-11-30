@@ -1,6 +1,12 @@
 package com.bitcamp.testproject.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,10 +14,15 @@ import com.bitcamp.testproject.dao.BoardDao;
 import com.bitcamp.testproject.dao.FavoriteRegionDao;
 import com.bitcamp.testproject.dao.FavoriteSportsDao;
 import com.bitcamp.testproject.dao.MemberDao;
+import com.bitcamp.testproject.vo.FavoriteRegion;
+import com.bitcamp.testproject.vo.FavoriteSports;
 import com.bitcamp.testproject.vo.Member;
 
 @Service 
 public class DefaultMemberService implements MemberService {
+
+  @Autowired
+  ServletContext sc;
 
   @Autowired
   MemberDao memberDao;
@@ -27,7 +38,21 @@ public class DefaultMemberService implements MemberService {
 
   @Transactional
   @Override
-  public void add(Member member) throws Exception {
+  public void add(Member member, Part file) throws Exception {
+
+    String dirPath = sc.getRealPath("/member/files");
+
+    if (file != null) {
+      String filename = UUID.randomUUID().toString();
+      file.write(dirPath + "/" + filename);
+      member.setFilepath(filename);
+    }
+
+    member.setFavoriteRegion(saveRegion(member));
+    member.setFavoriteSports(saveSports(member));
+
+    System.out.println("member=" + member);
+
     // 1) 회원등록
     memberDao.insert(member);
 
@@ -40,8 +65,11 @@ public class DefaultMemberService implements MemberService {
 
   @Transactional
   @Override
-  public boolean update(Member member) throws Exception {
-
+  public boolean update(Member member, Part file, int memberNo) throws Exception {
+    member.setNo(memberNo);
+    member.setFilepath(saveAttachedFile(file));
+    member.setFavoriteRegion(saveRegion(member));
+    member.setFavoriteSports(saveSports(member));
     if (member.getFilepath() == null) {
       String originFile = memberDao.getFileByMemberNo(member.getNo());
       member.setFilepath(originFile);
@@ -126,9 +154,37 @@ public class DefaultMemberService implements MemberService {
   public Member findIdCheck(String name, String email) throws Exception {
     return memberDao.findIdCheck(name, email);
   }
+
+  public List<FavoriteRegion> saveRegion(Member member) {
+    List<FavoriteRegion> favoriteRegion = new ArrayList<>();
+    for (int no : member.getRegionDomain()) {
+      favoriteRegion.add(new FavoriteRegion(no));
+    }
+
+    return favoriteRegion;
+  }
+
+  public List<FavoriteSports> saveSports(Member member) {
+    List<FavoriteSports> favoriteSports = new ArrayList<>();
+    for (int no : member.getSportsDomain()) {
+      favoriteSports.add(new FavoriteSports(no));
+    }
+
+    return favoriteSports;
+  }
+
+  private String saveAttachedFile(Part file) throws IOException, ServletException {
+    String dirPath = sc.getRealPath("/member/files");
+    // 첨부파일이 있다면 실행
+    if (file.getSize() != 0) {
+      String filename = UUID.randomUUID().toString();
+      file.write(dirPath + "/" + filename);
+      System.out.println(filename + "\n파일네임 들어왔냐!>!>!");
+      return filename;
+    }
+    return null;
+  }
 }
-
-
 
 
 
