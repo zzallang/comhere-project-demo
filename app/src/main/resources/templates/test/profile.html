@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+</head>
+<body>
+  <h1>이것은 연습용</h1>
+  <div class="row">
+	  <div class="col-md-3" style="float:left;" data-th-each="profile : ${list}">
+	  <form action="edit" method="post">
+	  <input type="hidden" name="no" data-th-value="${profile.no}">
+		  <table border=1>
+		    <tr>
+		      <th>구분</th>
+		      <th></th>
+		    </tr>
+		    <tr>
+		      <td>이름</td>
+		      <td><input type="text" name="name" data-th-value="${profile.name}"></td>
+		    </tr>
+		    <tr>
+		      <td>생년월일</td>
+		      <td><input type="text" name="bday" data-th-value="${profile.bday}"></td>
+		    </tr>
+		    <tr>
+		      <td>성별</td>
+		      <td><input type="text" name="gender" data-th-value="${profile.gender}"></td>
+		    </tr>
+		    <tr>
+		      <td>연락처</td>
+		      <td><input type="text" name="tel" data-th-value="${profile.tel}"></td>
+		    </tr>
+		    <tr>
+		      <td>주소</td>
+		      <td><input type="text" name="addr" data-th-value="${profile.addr}"></td>
+		    </tr>
+		  </table>
+      <button type="button" onclick="update(this.form)">수정</button>
+      <button>삭제</button>
+      </form>
+	  </div>
+  </div>
+  <br/><br/><br/>
+  <div>
+	  <form action="insert" method="post">
+	    <div>이름 :
+	      <input type="text" placeholder="이름" name="name">
+	    </div>
+	    <div>생년월일 :
+	      <input type="date" placeholder="생년월일" name="bday">
+	    </div>
+	    <div>성별 :
+	      <input type="text" placeholder="성별" name="gender">
+	    </div>
+	    <div>연락처 :
+	      <input type="text" placeholder="연락처" name="tel">
+	    </div>
+	    <div>주소 :
+	      <input type="text" placeholder="시/도" name="addr">
+	    </div>
+	    <br/>
+		  <button>등록</button>
+	  </form>
+  </div>
+</body>
+
+
+<script>
+  function update(no) {
+	  console.log(no);
+	  console.log(no.no.value)
+	  no.submit();
+	  
+  }
+</script>
+
+
+
+
+</html>
+
+

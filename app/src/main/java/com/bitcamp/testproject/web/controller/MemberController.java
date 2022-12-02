@@ -81,6 +81,12 @@ public class MemberController {
     return mv;
   }
 
+  @GetMapping("delete_pw_check_viewer")
+  public String deletePwCehckViewer(int no, Model model) {
+    model.addAttribute("no", no);
+    return "member/delete_pw_check_viewer";
+  }
+
   @GetMapping("delete")
   @ResponseBody
   public boolean deleteMember(int no, HttpSession session) throws Exception{
@@ -91,12 +97,6 @@ public class MemberController {
       result = false;
     }
     return result;
-  }
-
-  @GetMapping("delete_pw_check_viewer")
-  public String deletePwCehckViewer(int no, Model model) {
-    model.addAttribute("no", no);
-    return "member/delete_pw_check_viewer";
   }
 
   @PostMapping("duplication-id-check")
