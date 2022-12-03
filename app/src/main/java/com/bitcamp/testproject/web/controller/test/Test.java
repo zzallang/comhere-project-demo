@@ -37,6 +37,11 @@ public class Test {
     return "redirect:profile";
   }
 
+  @GetMapping("remove")
+  public String delete() {
+    System.out.println("컨트롤러 삭제 >>>>>>>>>>");
+    return "redirect:profile";
+  }
 
 
 }
