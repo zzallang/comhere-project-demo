@@ -38,7 +38,7 @@ public class Test {
   }
 
   @GetMapping("remove")
-  public String delete() {
+  public String remove() {
     System.out.println("컨트롤러 삭제 >>>>>>>>>>");
     return "redirect:profile";
   }
