@@ -9,5 +9,5 @@ public interface FileDao {
 
   void uploadFile(File file);
 
-  List<File> findAllFiles(List<File> list);
+  List<File> findAllFiles();
 }

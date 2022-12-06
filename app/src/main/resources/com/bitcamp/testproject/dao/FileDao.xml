@@ -6,9 +6,9 @@
   
   <insert id="uploadFile" parameterType="file">
     INSERT INTO 
-      file(file)
+      file(fileName,fileRealName,fileExt,fileSize,fileType,filePath)
     VALUES 
-      (#{file})
+      (#{fileName},#{fileRealName},#{fileExt},#{fileSize},#{fileType},#{filePath})
   </insert>
   
   <select id="findAllFiles" resultType="file">

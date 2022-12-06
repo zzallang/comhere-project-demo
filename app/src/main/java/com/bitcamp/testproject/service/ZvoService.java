@@ -1,7 +1,6 @@
 package com.bitcamp.testproject.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -46,25 +45,34 @@ public class ZvoService {
   }
 
   public void uploadFile(HttpServletRequest req) throws IOException, ServletException {
-    System.out.println("파일 업로드 서비스 호출 : " + req);
-    File file = new File();
-    String dirPath = sc.getRealPath("/test/files");
     Collection<Part> part = req.getParts();
     for(Part p : part) {
-      System.out.println(p.getSubmittedFileName());
-      p.getContentType();
-      String filename = UUID.randomUUID().toString();
-      p.write(dirPath + "/" + filename);
-      file.setFile(filename);
+      File file = commonFilesSetting(p);
+      p.write(file.getFilePath() + "/" + file.getFileName() + "." + file.getFileExt());
       fileDao.uploadFile(file);
     }
   }
 
   public List<File> findAllFiles() {
-    List<File> list = new ArrayList<>();
-    fileDao.findAllFiles(list);
-    System.out.println("파일 조회하기 file = " + fileDao.findAllFiles(list));
-    return list;
+    return fileDao.findAllFiles();
   }
 
+  public String excludeFileExt(String filename) {
+    return filename.substring(filename.indexOf(".") + 1);
+  }
+
+  public File commonFilesSetting(Part p) {
+    File file = new File();
+    String filename = UUID.randomUUID().toString();
+    String dirPath = sc.getRealPath("/test/files");
+
+    file.setFileName(filename);
+    file.setFileRealName(p.getSubmittedFileName());
+    file.setFileExt(excludeFileExt(p.getSubmittedFileName()));
+    file.setFileType(p.getContentType());
+    file.setFileSize(p.getSize());
+    file.setFilePath(dirPath);
+
+    return file;
+  }
 }
