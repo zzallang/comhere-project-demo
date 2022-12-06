@@ -11,35 +11,32 @@ import com.bitcamp.testproject.vo.Zvo;
 
 @Controller
 @RequestMapping("/test/")
-public class Test {
+public class TestController {
 
   @Autowired
   ZvoService vs;
 
   @GetMapping("profile")
   public String profileViewer(Model model) {
-    System.out.println(vs.findAll());
     model.addAttribute("list", vs.findAll());
     return "test/profile";
   }
 
   @PostMapping("insert")
   public String insert(Zvo vo) {
-    System.out.println("컨트롤러 추가 >>>>>>>>>>>>>> " + vo.toString());
     vs.insert(vo);
     return "redirect:profile";
   }
 
   @PostMapping("edit")
   public String update(Zvo vo) throws Exception {
-    System.out.println("컨트롤러 업뎃 >>>>>>>>>>>>>> " + vo.toString());
     vs.update(vo);
     return "redirect:profile";
   }
 
-  @GetMapping("remove")
-  public String remove() {
-    System.out.println("컨트롤러 삭제 >>>>>>>>>>");
+  @PostMapping("remove")
+  public String delete(int no) {
+    vs.delete(no);
     return "redirect:profile";
   }
 

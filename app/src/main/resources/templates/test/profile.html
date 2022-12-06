@@ -35,9 +35,13 @@
 		      <td>주소</td>
 		      <td><input type="text" name="addr" data-th-value="${profile.addr}"></td>
 		    </tr>
+		    <tr>
+		      <td>주소</td>
+		      <td><input type="text" name="addr" data-th-value="${profile.addr}"></td>
+		    </tr>
 		  </table>
       <button type="button" onclick="update(this.form)">수정</button>
-      <button type="button" onclick="remove()">삭제</button>
+      <button type="button" onclick="remove(this.form)">삭제</button>
       </form>
 	  </div>
   </div>
@@ -62,6 +66,7 @@
 	    <br/>
 		  <button>등록</button>
 	  </form>
+	  <a href="file">파일업로드</a>
   </div>
 </body>
 
@@ -69,12 +74,16 @@
 <script>
   function update(no) {
 	  console.log(no);
-	  console.log(no.no.value)
+	  console.log(no.no.value);
 	  no.submit();
 	  
   }
   
   function remove(no) {
+	  console.log(no);
+	  console.log(no.no.value);
+	  no.action='remove'; 
+	  no.submit();
   }
 
 </script>

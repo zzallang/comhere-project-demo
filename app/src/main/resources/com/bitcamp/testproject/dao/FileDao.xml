@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.testproject.dao.FileDao">
+  
+  <insert id="uploadFile" parameterType="file">
+    INSERT INTO 
+      file(file)
+    VALUES 
+      (#{file})
+  </insert>
+  
+  <select id="findAllFiles" resultType="file">
+    SELECT 
+      *
+    FROM
+      file
+  </select>
+  
+</mapper>

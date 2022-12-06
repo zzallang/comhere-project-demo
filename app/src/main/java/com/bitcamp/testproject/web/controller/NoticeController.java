@@ -65,7 +65,6 @@ public class NoticeController {
   public String add(Notice notice, Part file, HttpSession session) throws Exception {
     // 파일경로넣기, 등록회원 정보 넣기
     notice.setThumbnail(saveAttachedFile(file));
-
     noticeService.add(notice);
     return "redirect:detail?no=" + notice.getNo();
 
@@ -102,24 +101,18 @@ public class NoticeController {
 
   @PostMapping("update")
   public String update(Notice notice, Part file, HttpSession session) throws Exception {
-
-    System.out.println(notice + "\n 노티스 넘어오았냐?!!?!?!?!?");
     notice.setThumbnail(saveAttachedFile(file));
-    System.out.println(file + "\n 파일 넘어오았냐?!!?!?!?!?");
     if (!noticeService.update(notice)) { 
       throw new Exception("게시글을 변경할 수 없습니다!"); 
     }
-
     return "redirect:detail?no=" + notice.getNo();
   }
 
   @GetMapping("delete")
   public String delete(int no, HttpSession session) throws Exception {
-
     if (!noticeService.delete(no)) {
       throw new Exception("게시글을 삭제할 수 없습니다.");
     }
-
     return "redirect:list";
   }
 

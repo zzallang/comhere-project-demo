@@ -13,4 +13,6 @@ public interface ZvoDao {
 
   int update(Zvo vo);
 
+  void delete(int no);
+
 }
