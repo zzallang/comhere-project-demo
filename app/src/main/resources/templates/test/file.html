@@ -12,18 +12,27 @@
     <br/>
     <button>등록</button>
   </form>
-  <div id="multiple-file-preview">
-    <ul id="sortable">
-      <li data-th-each="file : ${fileList}">[[${file.fileRealName}]]
-        <img data-th-src="@{'/test/files/' + ${file.fileName}}">
-      </li>
-    </ul>
-  </div>
+	  <div id="multiple-file-preview">
+	    <ul id="sortable">
+	      <li data-th-each="file : ${fileList}">[[${file.fileRealName}]]<br/>
+	        <img data-th-src="@{'/test/files/' + ${file.fileName}}">
+			    <input type="hidden" value="${file.no}" name="file-no">
+	        <br/>
+	        <button type="button" onclick="fileDelete(this.input)">삭제</button>
+	      </li>
+	    </ul>
+	  </div>
 
 </body>
 
 <script>
 
+function fileDelete(no) {
+    console.log(no);
+    console.log(no.no.value);
+    no.action='delete-file';
+    no.submit();
+  }
 
 </script>
 

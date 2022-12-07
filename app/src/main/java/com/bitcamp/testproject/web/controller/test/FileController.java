@@ -31,5 +31,12 @@ public class FileController {
     return "redirect:file";
   }
 
+  @PostMapping("delete-file")
+  public String deleteFile(int no) {
+    System.out.println("--------------------------");
+    System.out.println("삭제 호출");
+    return "redirect:file";
+  }
+
 
 }
