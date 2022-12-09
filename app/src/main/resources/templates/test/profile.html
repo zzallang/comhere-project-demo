@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Test</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
   <h1>이것은 연습용</h1>
@@ -68,6 +69,19 @@
 	  </form>
 	  <a href="file">파일업로드</a>
   </div>
+  
+  <div style="background-color: black" id="colorArea">
+    <button name="button" type="button" id="changeBtn" onclick="changeColor();">배경색 바꾸기</button>
+  </div>
+  <select id="colorChoice" onchange="choice();">
+    <option value="pink">핑크</option>
+    <option value="red">레드</option>
+    <option value="orange">오렌지</option>
+    <option value="yellow">옐로우</option>
+  </select>
+  
+  <input type="hidden" id="hiddenId" value="1">
+  <button type="button" id="callBtn">call</button>
 </body>
 
 
@@ -85,6 +99,68 @@
 	  no.action='remove'; 
 	  no.submit();
   }
+  
+  var rainbow = ['red','orange','yellow','green','blue','navy','purple','pink','grey']
+  var index = 0;
+  
+  /*function changeColor() {
+	  var color = document.getElementById('colorArea');
+	  
+	  color.style.backgroundColor = rainbow[index];
+	  index++
+	  if (index > rainbow.length-1) {
+		  index = 0;
+	  }
+	  console.log(color);
+  } */
+  
+  $('#changeBtn').click(function() {
+	  $('#colorArea').css('background-color',rainbow[index]);
+	    index++
+	    if (index > rainbow.length-1) {
+	      index = 0;
+	    }	  
+	  console.log($('#colorArea'));
+  });
+  
+	  var colorArea = document.getElementById('colorArea');
+	  var color = document.getElementById('colorChoice');
+  /* function choice() {
+	  
+	  for(var i = 0; i < color.options.length; i++) {
+	   if (color.options[i].selected) {
+		   colorArea.style.backgroundColor = color.options[i].value;
+	   }
+	  }
+	  
+  } */
+  
+  $('#colorChoice').change(function() {
+	  var selected = $(this).is('select');
+	  console.log(seleted);
+	  if(selected) {
+		  $('#colorArea').css('background-color',$(this).val());
+	  }
+  });
+  
+  $('#callBtn').on('click', function() {
+	  var no = $('#hiddenId').val();
+	  console.log(no);
+		  $.ajax({
+		      url : '/app/data/call',
+		      type : "get",
+		      data : {'no' : no},
+		      dataType : 'json',
+		      success : function(result) { 
+		        if(result == 1) {
+		        	alert("ok");
+		        } else {
+		        	  alert("no")
+		        }
+		      }
+		    })
+  })
+  
 
 </script>
 

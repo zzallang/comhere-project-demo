@@ -10,4 +10,8 @@ public interface FileDao {
   void uploadFile(File file);
 
   List<File> findAllFiles();
+
+  void deleteFile(int no);
+
+  File findDeleteFile(int no);
 }

@@ -14,11 +14,10 @@
   </form>
 	  <div id="multiple-file-preview">
 	    <ul id="sortable">
-	      <li data-th-each="file : ${fileList}">[[${file.fileRealName}]]<br/>
-	        <img data-th-src="@{'/test/files/' + ${file.fileName}}">
-			    <input type="hidden" value="${file.no}" name="file-no">
-	        <br/>
-	        <button type="button" onclick="fileDelete(this.input)">삭제</button>
+	      <li data-th-each="file : ${fileList}">[[${file.fileRealName}]]
+	        <input type="checkbox" name="file-check">
+	        <button type="button" data-th-onclick="'fileDelete(' + ${file.no} + ')'">삭제</button><br/>
+	        <img data-th-src="@{'/test/files/' + ${file.fileName} + '.' + ${file.fileExt}}">
 	      </li>
 	    </ul>
 	  </div>
@@ -29,10 +28,22 @@
 
 function fileDelete(no) {
     console.log(no);
-    console.log(no.no.value);
-    no.action='delete-file';
-    no.submit();
+    console.log(document);
+    
+    var form = document.createElement('form');
+    form.setAttribute('method','post');
+    form.setAttribute('action','delete-file');
+    
+    var input = document.createElement('input');
+    input.setAttribute('type','hidden');
+    input.setAttribute('name', 'no');
+    input.setAttribute('value', no);
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
   }
+  
 
 </script>
 

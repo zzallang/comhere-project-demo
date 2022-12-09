@@ -18,4 +18,21 @@
       file
   </select>
   
+  <select id="findDeleteFile" parameterType="int" resultType="file">
+  SELECT
+    no,fileName,filePath,fileExt
+  FROM
+    file
+  WHERE
+    no = #{no}
+  </select>
+  
+  <delete id="deleteFile" parameterType="int">
+  DELETE
+  FROM
+    file
+  WHERE
+    no = #{no}
+  </delete>
+  
 </mapper>

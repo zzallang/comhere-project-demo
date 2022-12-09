@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.testproject.dao.FileDao;
 import com.bitcamp.testproject.dao.ZvoDao;
 import com.bitcamp.testproject.vo.File;
@@ -44,6 +45,7 @@ public class ZvoService {
     voDao.delete(no);
   }
 
+  @Transactional
   public void uploadFile(HttpServletRequest req) throws IOException, ServletException {
     Collection<Part> part = req.getParts();
     for(Part p : part) {
@@ -51,6 +53,19 @@ public class ZvoService {
       p.write(file.getFilePath() + "/" + file.getFileName() + "." + file.getFileExt());
       fileDao.uploadFile(file);
     }
+  }
+
+  @Transactional
+  public void deleteFile(int no) {
+    File file = findDeleteFile(no);
+    System.out.println(file.getFilePath() + "\\" + file.getFileName() + "." + file.getFileExt());
+    java.io.File targetFile = new java.io.File(file.getFilePath() + "\\" + file.getFileName() + "." + file.getFileExt()); 
+
+    if (targetFile.exists()) {
+      targetFile.delete();
+    }
+
+    fileDao.deleteFile(no);
   }
 
   public List<File> findAllFiles() {
@@ -61,6 +76,7 @@ public class ZvoService {
     return filename.substring(filename.indexOf(".") + 1);
   }
 
+  @Transactional
   public File commonFilesSetting(Part p) {
     File file = new File();
     String filename = UUID.randomUUID().toString();
@@ -75,4 +91,9 @@ public class ZvoService {
 
     return file;
   }
+
+  public File findDeleteFile(int fileNo) {
+    return fileDao.findDeleteFile(fileNo);
+  }
+
 }
