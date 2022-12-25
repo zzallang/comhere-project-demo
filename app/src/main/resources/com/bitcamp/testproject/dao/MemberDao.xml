@@ -103,16 +103,7 @@
  
   <select id="findByNo" resultMap="memberMap">
     SELECT 
-      m.mno,
-      m.name,
-      m.id,
-      m.email,
-      m.tel,
-      m.cdt,
-      m.nick,
-      m.bday,
-      m.sex,
-      m.filepath,
+      m.*,
       fr.rno,
       r.sigu,
       fs.sno,
