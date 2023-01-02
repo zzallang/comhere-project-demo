@@ -95,6 +95,7 @@
                   <h1 class="contact_text">개인정보 수정</h1>
                    <div class="mail_sectin">
                     <form action="update" enctype="multipart/form-data" method="post" id="updateForm" name="myForm"  style="width: 500px;">
+<!--                       <input type="hidden" id="fragion" name="fragion" value="${member.FavoriteRegion[0].Region.no}"> -->
                        <!-- 사진첨부 -->
                         <div id="imagePreview">
                           <div class="imgimg">
@@ -235,17 +236,17 @@
             
             
             /* 관심지역 선택한 값 불러오기 시작*/
-                 let memberRestion1 = [[${member.FavoriteRegion[0].Region.no}]]; // 예) 금천구의 번호
-                 console.log(memberRestion1);
-               
-                 let regionOptionLength1 = $("#favoriteRegion1").find("option").length; // select box 안에 option 개수 조회
-               
-                 for (let i=0; i<regionOptionLength1; i++) {
-                   let optionValue = $("#favoriteRegion1").find('option').eq(i).attr("value");
-                   if(memberRestion1 == optionValue) { //
-                     $("#favoriteRegion1").find('option').eq(i).attr('selected', true);
-                   }
-                 }
+            let memberRestion1 = [[${member.FavoriteRegion[0].Region.no}]]; // 예) 금천구의 번호
+            console.log(memberRestion1);
+          
+            let regionOptionLength1 = $("#favoriteRegion1").find("option").length; // select box 안에 option 개수 조회
+          
+            for (let i=0; i<regionOptionLength1; i++) {
+              let optionValue = $("#favoriteRegion1").find('option').eq(i).attr("value");
+              if(memberRestion1 == optionValue) { //
+                $("#favoriteRegion1").find('option').eq(i).attr('selected', true);
+              }
+            }
             
             let memberRestion2 = [[${member.FavoriteRegion[1].Region.no}]]; // 예) 금천구의 번호
             console.log(memberRestion2);
