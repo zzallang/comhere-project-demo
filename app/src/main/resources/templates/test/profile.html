@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
+<br>
 <head>
 <meta charset="UTF-8">
 <title>Test</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
-<body>
-  <h1>이것은 연습용</h1>
+<br>
+  <h1 id="fd">이것은 연습용</h1>
   <div class="row">
 	  <div class="col-md-3" style="float:left;" data-th-each="profile : ${list}">
-	  <form action="edit" method="post">
-	  <input type="hidden" name="no" data-th-value="${profile.no}">
+	  <form action="edit" method="post" id="one">
+		<input type="checkbox" id="box" onclick="checkbox();">
+	  <input type="hidden" name="no" id="no" data-th-value="${profile.no}">
 		  <table border=1>
 		    <tr>
 		      <th>구분</th>
@@ -30,7 +31,7 @@
 		    </tr>
 		    <tr>
 		      <td>연락처</td>
-		      <td><input type="text" name="tel" data-th-value="${profile.tel}"></td>
+		      <td><input type="text" name="tel" data-th-value="${profile.tel}" id="tel"></td>
 		    </tr>
 		    <tr>
 		      <td>주소</td>
@@ -48,7 +49,7 @@
   </div>
   <br/><br/><br/>
   <div>
-	  <form action="insert" method="post">
+	  <form action="insert" method="post" id="two">
 	    <div>이름 :
 	      <input type="text" placeholder="이름" name="name">
 	    </div>
@@ -62,7 +63,7 @@
 	      <input type="text" placeholder="연락처" name="tel">
 	    </div>
 	    <div>주소 :
-	      <input type="text" placeholder="시/도" name="addr">
+	      <input type="text" placeholder="시/도" name="addr" value="5555" id="addr">
 	    </div>
 	    <br/>
 		  <button>등록</button>
@@ -82,8 +83,16 @@
   
   <input type="hidden" id="hiddenId" value="1">
   <button type="button" id="callBtn">call</button>
-</body>
 
+	</br>
+	<button type="button" onclick="increament1();">1 붙이기</button>
+	</br>
+	<button type="button" onclick="increament4444();">4444 추가</button>
+</br>
+<button type="button" onclick="change();">012345</button>
+</br>
+<button type="button" onclick="sizeUp();">사이즈업</button>
+</body>
 
 <script>
   function update(no) {
@@ -161,7 +170,96 @@
 		    })
   })
   
+  function selecter() {
+	  var form = document.getElementsByTagName('form');
+// 	  form[0].name = 'one';
+// 	  form[1].name = 'two';
+    form[0].setAttribute('name', 'one');
+    form[1].setAttribute('name', 'two');
+    
+    var form1 = document.getElementById('one');
+		var form2 = document.getElementById('two');
 
+	  console.log(form);
+		console.log(form1);
+		console.log(form2);
+
+		var input = form1.getElementsByTagName('input');
+		console.log(input);
+
+		console.log(form1.name.value);
+		form1.name.value = '222';
+
+  }
+  
+  selecter();
+
+	// 기존 값 불러오기
+	// 기존 값에 1을 붙이기
+	// 결과 값을 기존 값에 할당하기
+	function increament1() {
+		var tel = document.getElementById('tel');
+		console.log(tel);
+		console.log(tel.value);
+		var original = tel.value;
+
+		original += '1';
+
+		tel.value = original;
+	}
+
+	// 기존 값 불러오기
+	// 기존 값에 4444 붙이기
+	// 결과 값을 기존 값에 할당하기
+	function increament4444() {
+		var addr = document.getElementById('addr');
+		console.log(addr.value);
+		var originAddr = addr.value;
+
+		originAddr += '4444';
+
+		addr.value = originAddr;
+
+	}
+
+	// 기존 값 불러오기
+	// 기존 값 변경하기
+	// 변경 값 할당하기
+	function change() {
+		var id = document.getElementById('one');
+		console.log(id);
+		var idValue = id.getElementsByTagName('input');
+		console.log(idValue);
+
+		for (var i = 0; i < idValue.length; i++) {
+			idValue[i].value = i;
+			console.log(idValue[i].value);
+		}
+
+	}
+
+	// // 기존 폰트 사이즈 불러오기
+	// // 크기 조정하기
+	// // 출력
+	// function sizeUp() {
+	// 	var h1 = document.getElementById('fd');
+	// 	console.log(h1);
+	// 	console.log(h1.style.fontSize);
+	// 	h1.style.fontSize += '11px';
+	// }
+
+	// 체크가 되면 히든이 보이고 안되면 안보이기
+	function checkbox() {
+		var cb = document.getElementById('box');
+		console.log(cb);
+		var no = document.getElementById('no');
+		no.setAttribute('type', 'text');
+		if(cb.checked) {
+			no.style.display = 'block';
+		} else {
+			no.style.display = 'none';
+		}
+	}
 </script>
 
 

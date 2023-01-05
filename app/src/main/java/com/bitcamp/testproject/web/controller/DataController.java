@@ -10,7 +10,6 @@ public class DataController {
 
   @GetMapping("call")
   public int callData(int no) {
-    no = 2;
     return no;
   }
 
