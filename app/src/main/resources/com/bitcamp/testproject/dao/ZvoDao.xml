@@ -39,6 +39,30 @@
       no = #{no}
   </delete>
   
+  <insert id="insertAjax">
+  INSERT INTO
+    me(textArea)
+  VALUES
+    (#{text})
+  </insert>
+  
+  <select id="findCountById" resultType="int">
+  SELECT 
+    COUNT(*)
+  FROM
+    me
+  WHERE
+    no = #{no}
+  </select>
+  
+  <update id="updateText">
+  UPDATE
+    me
+  SET
+    textArea = #{text}
+  WHERE
+    no = #{no}
+  </update>
   
   
 </mapper>

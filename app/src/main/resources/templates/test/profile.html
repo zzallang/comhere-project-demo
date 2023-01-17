@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<br>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"></meta>
 <title>Test</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+	#hoho {
+		background-color: blue;
+		color: white;
+		width: 200px;
+		height: 200px;
+		position:absolute;
+	}
+	
+	#position {
+		position: relative;
+	}
+</style>
 </head>
-<br>
+<body>
   <h1 id="fd">이것은 연습용</h1>
   <div class="row">
 	  <div class="col-md-3" style="float:left;" data-th-each="profile : ${list}">
@@ -32,10 +44,6 @@
 		    <tr>
 		      <td>연락처</td>
 		      <td><input type="text" name="tel" data-th-value="${profile.tel}" id="tel"></td>
-		    </tr>
-		    <tr>
-		      <td>주소</td>
-		      <td><input type="text" name="addr" data-th-value="${profile.addr}"></td>
 		    </tr>
 		    <tr>
 		      <td>주소</td>
@@ -71,7 +79,7 @@
 	  <a href="file">파일업로드</a>
   </div>
   
-  <div style="background-color: black" id="colorArea">
+  <div id="colorArea">
     <button name="button" type="button" id="changeBtn" onclick="changeColor();">배경색 바꾸기</button>
   </div>
   <select id="colorChoice" onchange="choice();">
@@ -84,14 +92,25 @@
   <input type="hidden" id="hiddenId" value="1">
   <button type="button" id="callBtn">call</button>
 
-	</br>
+	<br>
 	<button type="button" onclick="increament1();">1 붙이기</button>
-	</br>
+	<br>
 	<button type="button" onclick="increament4444();">4444 추가</button>
-</br>
-<button type="button" onclick="change();">012345</button>
-</br>
-<button type="button" onclick="sizeUp();">사이즈업</button>
+	<br>
+	<button type="button" onclick="change();">012345</button>
+	<br>
+	<button type="button" onclick="sizeUp();">사이즈업</button>
+	<br>
+	<input type="text" id="contents">
+	<button type="button">버튼</button>
+	<textarea id="showContents"></textarea>
+	<div id="position">
+		<div id="hoho">
+	    1111
+		</div>
+  <button type="button"> 이동하기 </button>
+  </div>
+
 </body>
 
 <script>
@@ -261,7 +280,50 @@
 		}
 	}
 
+	const contents = document.getElementById('contents');
+	contents.addEventListener ('keyup', logKey);
+	function logKey (e) {
+		if(e.keyCode === 13) {
+			e.preventDefault();
+			var sc = document.getElementById('showContents');
+			sc.value += contents.value + '\n';
+			contents.value = '';
+			console.log(sc.value);
+			$.ajax({
+		      url : '/app/data/call',
+		      type : "get",
+		      data : {'text' : sc.value},
+		      dataType : 'json',
+		      success : function(result) { 
+		        if(result == 1) {
+		        	alert("ok");
+		        } else {
+		        	  alert("no")
+		        }
+		      }
+		    })
+		}
+	}
+
 	
+	var scroll = document.getElementById('hoho');
+	scroll.addEventListener('wheel', function(e) {		
+		var element1 = document.querySelector('#hoho');
+		var elementLeft = window.pageXOffset + element1.getBoundingClientRect().left;
+		
+		var currentX = Math.floor(elementLeft);
+		
+			if (e.wheelDelta > 0) {
+				currentX += 10;
+				console.log(currentX + "scroll up");
+			} else {
+				currentX -= 10;
+				console.log(currentX + "scroll down");
+			};
+		
+		scroll.style.left = currentX + "px";
+		
+	});
 </script>
 
 
