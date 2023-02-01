@@ -99,7 +99,7 @@
 	<br>
 	<button type="button" onclick="change();">012345</button>
 	<br>
-	<button type="button" onclick="sizeUp();">사이즈업</button>
+	<button type="button" onclick="reload();">새로고침</button>
 	<br>
 	<input type="text" id="contents">
 	<button type="button">버튼</button>
@@ -305,13 +305,11 @@
 		}
 	}
 
-	
+	var currentX = 0;
 	var scroll = document.getElementById('hoho');
 	scroll.addEventListener('wheel', function(e) {		
 		var element1 = document.querySelector('#hoho');
-		var elementLeft = window.pageXOffset + element1.getBoundingClientRect().left;
-		
-		var currentX = Math.floor(elementLeft);
+		currentX = Math.floor(currentX);
 		
 			if (e.wheelDelta > 0) {
 				currentX += 10;
@@ -324,6 +322,11 @@
 		scroll.style.left = currentX + "px";
 		
 	});
+
+
+	function reload() {
+		window.location.reload();
+	}
 </script>
 
 
